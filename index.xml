@@ -1,12 +1,12 @@
 <Application>
 	<Head>
 		<meta name="id" value="ozil"/>
-		<meta name="title" value="Ozil" version="1.0"/>
+		<meta name="title" value="Ozil Player" version="1.0"/>
 		<meta name="author" value="Hakan Bilgin" namespace="ant"/>
 		<meta name="license" value="AGPL-3.0"/>
 		<meta name="repository" value="https://github.com/Defiant-System/ozil"/>
-		<meta name="width" value="600"/>
-		<meta name="height" value="400"/>
+		<meta name="width" value="800"/>
+		<meta name="height" value="450"/>
 		<meta name="top" value="280"/>
 		<meta name="left" value="120"/>
 		<meta name="minimize"/>

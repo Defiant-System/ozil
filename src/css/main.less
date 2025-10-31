@@ -1,8 +1,115 @@
 
+// applies to 'WindowBody': START;
+background: #000a;
+backdrop-filter: blur(7px);
+
 content {
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
+
+	[class*="icon-"],
+	[class^="icon-"] {
+		position: relative;
+		display: inline-block;
+		vertical-align: middle;
+		width: 21px;
+		height: 21px;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		filter: invert(1) brightness(3) drop-shadow(0 1px 0 #0002);
+		// background: #f00;
+		
+		&.icon-play { background-image: url(~/icons/icon-play.png); }
+		&.icon-pause { background-image: url(~/icons/icon-pause.png); }
+		&.icon-forward { background-image: url(~/icons/icon-forward.png); }
+		&.icon-rewind { background-image: url(~/icons/icon-rewind.png); }
+		&.icon-restart { background-image: url(~/icons/icon-restart.png); }
+		&.icon-volume { background-image: url(~/icons/icon-volume.png); }
+		&.icon-volume-mute { background-image: url(~/icons/icon-volume-mute.png); }
+		&.icon-cc { background-image: url(~/icons/icon-cc.png); }
+		&.icon-cog { background-image: url(~/icons/icon-cog.png); }
+		&.icon-pip { background-image: url(~/icons/icon-pip.png); }
+		&.icon-expand { background-image: url(~/icons/icon-expand.png); }
+		&.icon-collapse { background-image: url(~/icons/icon-collapse.png); }
+		&.icon-airplay { background-image: url(~/icons/icon-airplay.png); }
+		&.icon-download { background-image: url(~/icons/icon-download.png); }
+	}
+
+	.wrapper {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		// background: url(/app/ant/icons/app-icon-ozil.png) 50% 50% no-repeat;
+		background: 50% 50% no-repeat;
+		background-size: 100% auto;
+		background-image: var( --wp );
+	}
+
+	.controls {
+		backdrop-filter: blur(23px);
+		background: #0003;
+		color: #fff;
+		position: absolute;
+		bottom: 29px;
+		left: 50%;
+		width: 540px;
+		height: 43px;
+		padding: 7px;
+		margin-left: -270px;
+		border-radius: 11px;
+		display: flex;
+
+		> span {
+			// background: #fff2;
+			position: relative;
+			width: 29px;
+			height: 29px;
+			padding: 4px;
+			margin-left: 3px;
+
+			&:nth-child(1) {
+				margin-left: 0;
+			}
+
+			&[data-click="toggle-play"] {  }
+			&[data-click="toggle-volume"] {  }
+			&[data-click="toggle-captions"] {  }
+			&[data-click="toggle-settings"] {  }
+			&[data-click="toggle-pip"] {  }
+			&[data-click="toggle-fullscreen"] {  }
+		}
+
+		.volume {
+			// background: #fff2;
+			width: 100px;
+		}
+
+		.progress {
+			// background: #fff2;
+			position: relative;
+			flex: 1;
+			display: flex;
+
+			span {
+				position: relative;
+				width: 30px;
+				padding: 8px 0;
+
+				&:first-child { text-align: right; }
+				&:last-child { text-align: left; }
+			}
+
+			.track {
+				// background: #0001;
+				position: relative;
+				flex: 1;
+			}
+		}
+	}
 }
