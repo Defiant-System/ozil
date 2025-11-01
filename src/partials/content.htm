@@ -1,25 +1,43 @@
 <content data-context="ctx-controls">
 	<div class="wrapper" style="--wp: url(~/img/rasied-by-wolves.webp);">
-		
+	<!-- <div class="wrapper" style="--wp: url(~/img/demerzel.webp);"> -->
+	<!-- <div class="wrapper" style="--wp: url(~/img/galadriel.webp);"> -->
+		<!-- video player goes here -->
 	</div>
-	<div class="controls">
-		<span data-click="toggle-play"><i class="icon-play"></i></span>
-		<div class="progress">
-			<span>1:14</span>
-			<div class="track">
-				<span class="nob"></span>
+	<div class="controls" data-area="controls">
+		<div class="wrapper">
+			<span data-click="toggle-play"><i class="icon-play"></i></span>
+			<div class="progress">
+				<span>1:14</span>
+				<div class="track" style="--val: 31%;">
+					<span class="nob"></span>
+				</div>
+				<span>3:57</span>
 			</div>
-			<span>3:57</span>
+			<span data-hover="menu-volume">
+				<i class="icon-volume"></i>
+			</span>
+			<span data-hover="toggle-settings">
+				<i class="icon-cog"></i>
+			</span>
 		</div>
-		<span data-click="toggle-volume"><i class="icon-volume"></i></span>
-		<div class="volume">
-			<div class="track">
-				<span class="nob"></span>
+
+		<div class="ctrl-menu volume">
+			<div class="arrow-down"></div>
+			<div class="wrapper">
+				<div class="track" style="--val: 73%;">
+					<span class="nob"></span>
+				</div>
+				<span data-click="volume-mute">
+					<i class="icon-volume-mute"></i>
+				</span>
 			</div>
 		</div>
-		<span data-click="toggle-captions"><i class="icon-cc"></i></span>
-		<span data-click="toggle-settings"><i class="icon-cog"></i></span>
-		<span data-click="toggle-pip"><i class="icon-pip"></i></span>
-		<span data-click="toggle-fullscreen"><i class="icon-expand"></i></span>
+
+		<div class="ctrl-menu settings">
+			<span data-click="toggle-captions"><i class="icon-cc"></i></span>
+			<span data-click="toggle-pip"><i class="icon-pip"></i></span>
+			<span data-click="toggle-fullscreen"><i class="icon-expand"></i></span>
+		</div>
 	</div>
 </content>
