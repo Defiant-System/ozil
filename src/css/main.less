@@ -119,6 +119,36 @@ content {
 				position: relative;
 				padding: 11px;
 				border-radius: 11px;
+
+				hr {
+					background: none;
+					position: relative;
+					margin: 5px 0 6px;
+					border: 0;
+					height: 2px;
+
+					&:before,
+					&:after {
+						content: "";
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						height: 1px;
+						background: linear-gradient(90deg, #0000, #0004, #0000);
+					}
+
+					&:after {
+						top: auto;
+						bottom: 0;
+						background: linear-gradient(90deg, #fff0, #fff4, #fff0);
+					}
+				}
+
+				.name {
+					display: inline-block;
+					vertical-align: middle;
+				}
 			}
 
 			.arrow-down {
@@ -208,7 +238,7 @@ content {
 						display: block;
 						width: auto;
 						white-space: nowrap;
-						padding: 4px 25px 4px 15px;
+						padding: 4px 25px 4px 7px;
 						border-radius: 0;
 					}
 				}
