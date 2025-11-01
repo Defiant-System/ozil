@@ -9,7 +9,7 @@ content {
 	left: 0;
 	right: 0;
 	bottom: 0;
-
+	
 	[class*="icon-"],
 	[class^="icon-"] {
 		position: relative;
@@ -37,6 +37,10 @@ content {
 		&.icon-collapse { background-image: url(~/icons/icon-collapse.png); }
 		&.icon-airplay { background-image: url(~/icons/icon-airplay.png); }
 		&.icon-download { background-image: url(~/icons/icon-download.png); }
+
+		&.icon-back { background-image: url(~/icons/icon-play.png); background-size: 50% auto; transform: rotate(180deg) translateX(2px); }
+		&.icon-radio { background-image: url(~/icons/icon-radio.png); }
+		&.icon-radio-checked { background-image: url(~/icons/icon-radio-checked.png); }
 	}
 
 	.wrapper {
@@ -48,7 +52,10 @@ content {
 		height: 100%;
 		background: 50% 50% no-repeat;
 		background-size: auto 100%;
-		background-image: var( --wp );
+
+		&[data-wp="1"] { background-image: url(~/img/rasied-by-wolves.webp); }
+		&[data-wp="2"] { background-image: url(~/img/demerzel.webp); }
+		&[data-wp="3"] { background-image: url(~/img/galadriel.webp); }
 	}
 
 	.controls {
@@ -79,7 +86,6 @@ content {
 			width: 29px;
 			height: 29px;
 			padding: 4px;
-			margin-left: 3px;
 			border-radius: 4px;
 			cursor: pointer;
 
@@ -96,8 +102,14 @@ content {
 			}
 		}
 
+		> span {
+			margin-left: 3px;
+		}
+
 		.ctrl-menu {
 			position: absolute;
+			display: none;
+			right: 0px;
 			bottom: 100%;
 			margin-bottom: 11px;
 
@@ -111,23 +123,23 @@ content {
 
 			.arrow-down {
 				position: absolute;
-				bottom: -10px;
+				bottom: -9px;
 				left: 50%;
-				width: 18px;
-				height: 12px;
-				margin-left: -9px;
-				overflow: hidden;
+				width: 14px;
+				height: 9px;
+				margin-left: -6px;
+				// overflow: hidden;
 
 				&:before {
 					content: "";
 					position: absolute;
-					top: -6px;
+					top: -4px;
 					left: 2px;
-					width: 14px;
-					height: 14px;
+					width: 8px;
+					height: 8px;
 					transform: rotate(45deg);
 					backdrop-filter: blur(23px);
-					background: #0001;
+					background: #0003;
 				}
 			}
 
@@ -181,7 +193,25 @@ content {
 			}
 
 			&.settings {
-				display: none;
+				display: block;
+				right: -33px;
+				
+				.wrapper {
+					display: block;
+					padding: 11px 0;
+
+					&.hidden {
+						display: none;
+					}
+
+					span[data-click] {
+						display: block;
+						width: auto;
+						white-space: nowrap;
+						padding: 4px 25px 4px 15px;
+						border-radius: 0;
+					}
+				}
 			}
 		}
 

@@ -9,4 +9,10 @@
 		<Menu type="divider"/>
 		<Menu name="License" shell="win -al"/>
 	</Menu>
+
+	<Menu for="ctx-controls">
+		<Menu name="Raised By Wolves" click="set-wp" arg="1"/>
+		<Menu name="Foundation" click="set-wp" arg="2"/>
+		<Menu name="Hobbit" click="set-wp" arg="3"/>
+	</Menu>
 </MenuBar>

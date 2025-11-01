@@ -1,7 +1,5 @@
 <content data-context="ctx-controls">
-	<div class="wrapper" style="--wp: url(~/img/rasied-by-wolves.webp);">
-	<!-- <div class="wrapper" style="--wp: url(~/img/demerzel.webp);"> -->
-	<!-- <div class="wrapper" style="--wp: url(~/img/galadriel.webp);"> -->
+	<div class="wrapper" data-wp="1">
 		<!-- video player goes here -->
 	</div>
 	<div class="controls" data-area="controls">
@@ -35,9 +33,46 @@
 		</div>
 
 		<div class="ctrl-menu settings">
-			<span data-click="toggle-captions"><i class="icon-cc"></i></span>
-			<span data-click="toggle-pip"><i class="icon-pip"></i></span>
-			<span data-click="toggle-fullscreen"><i class="icon-expand"></i></span>
+			<div class="arrow-down"></div>
+			<div class="wrapper hidden">
+				<span data-click="toggle-captions">
+					<i class="icon-cc"></i>
+					<span class="name">Captions</span>
+				</span>
+				<hr />
+				<span data-click="toggle-pip">
+					<i class="icon-pip"></i>
+					<span class="name">Picture in Picture</span>
+				</span>
+				<span data-click="toggle-fullscreen">
+					<i class="icon-expand"></i>
+					<span class="name">Enter Fullscreen</span>
+				</span>
+			</div>
+
+			<div class="wrapper">
+				<span data-click="toggle-captions">
+					<i class="icon-back"></i>
+					<span class="name">Captions</span>
+				</span>
+				<hr />
+				<span data-click="toggle-captions">
+					<i class="icon-radio"></i>
+					<span class="name">Disabled</span>
+				</span>
+				<span data-click="toggle-captions">
+					<i class="icon-radio"></i>
+					<span class="name">English</span>
+				</span>
+				<span data-click="toggle-pip">
+					<i class="icon-radio-checked"></i>
+					<span class="name">Svenska</span>
+				</span>
+				<span data-click="toggle-fullscreen">
+					<i class="icon-radio"></i>
+					<span class="name">French</span>
+				</span>
+			</div>
 		</div>
 	</div>
 </content>

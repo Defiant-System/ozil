@@ -20,6 +20,7 @@ const ozil = {
 		let Self = ozil,
 			value,
 			el;
+		// console.log(event);
 		switch (event.type) {
 			// system events
 			case "window.init":
@@ -27,6 +28,10 @@ const ozil = {
 			// custom events
 			case "open-help":
 				karaqu.shell("fs -u '~/help/index.md'");
+				break;
+			// proxy events
+			case "set-wp":
+				Self.content.find("> .wrapper").data({ wp: event.arg });
 				break;
 			default:
 				el = event.el;
