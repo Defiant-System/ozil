@@ -1,5 +1,5 @@
 <content data-context="ctx-controls">
-	<div class="wrapper" data-wp="2">
+	<div class="wrapper" data-wp="0">
 		<!-- video player goes here -->
 	</div>
 	<div class="controls" data-area="controls">
@@ -33,10 +33,19 @@
 
 		<div class="ctrl-menu settings">
 			<div class="menu-wrapper hidden1">
-				<span data-click="toggle-captions">
+				<span class="has-submenu">
 					<i class="icon-cc"></i>
 					<span class="name">Captions</span>
 				</span>
+				<span class="has-submenu">
+					<i class="icon-speed"></i>
+					<span class="name">Speed</span>
+				</span>
+				<span class="has-submenu">
+					<i class="icon-quality"></i>
+					<span class="name">Quality</span>
+				</span>
+				<hr />
 				<span data-click="toggle-pip">
 					<i class="icon-pip"></i>
 					<span class="name">Picture in Picture</span>
@@ -50,7 +59,7 @@
 			<div class="menu-wrapper hidden">
 				<span data-click="toggle-captions">
 					<i class="icon-back"></i>
-					<span class="name">Captions</span>
+					<span class="name">Speed</span>
 				</span>
 				<hr />
 				<span data-click="toggle-captions">

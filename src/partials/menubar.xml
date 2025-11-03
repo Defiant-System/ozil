@@ -4,6 +4,33 @@
 		<Menu type="divider"/>
 		<Menu name="Quit Ozil Player" shell="win -c"/>
 	</Menu>
+	<Menu name="Settings">
+		<Menu name="Captions">
+			<Menu name="Disabled"/>
+			<Menu type="divider"/>
+			<Menu name="English" is_checked="1"/>
+			<Menu name="Danish"/>
+			<Menu name="Swedish"/>
+		</Menu>
+		<Menu name="Speed">
+			<Menu name="0.5x"/>
+			<Menu name="0.75x"/>
+			<Menu name="Normal"/>
+			<Menu name="1.25x"/>
+			<Menu name="1.5x"/>
+			<Menu name="1.75x"/>
+			<Menu name="2x"/>
+			<Menu name="4x"/>
+		</Menu>
+		<Menu name="Quality">
+			<Menu name="1080p"/>
+			<Menu name="720p"/>
+			<Menu name="576p"/>
+		</Menu>
+		<Menu type="divider"/>
+		<Menu name="Picture in Picture"/>
+		<Menu name="Enter Fullscreen"/>
+	</Menu>
 	<Menu name="Help">
 		<Menu name="Help" click="open-help"/>
 		<Menu type="divider"/>
@@ -11,6 +38,8 @@
 	</Menu>
 
 	<Menu for="ctx-controls">
+		<Menu name="None" click="set-wp" arg="0"/>
+		<Menu type="divider"/>
 		<Menu name="Raised By Wolves" click="set-wp" arg="1"/>
 		<Menu name="Foundation" click="set-wp" arg="2"/>
 		<Menu name="Hobbit" click="set-wp" arg="3"/>

@@ -18,7 +18,13 @@
 		switch (event.type) {
 			// custom events
 			case "toggle-play":
-				console.log(event);
+				el = event.el.find("i");
+				value = el.hasClass("icon-play");
+				if (value) {
+					el.removeClass("icon-play").addClass("icon-pause");
+				} else {
+					el.removeClass("icon-pause").addClass("icon-play");
+				}
 				break;
 			case "toggle-menu":
 				el = Self.els.controls.find(`.ctrl-menu.show`);
