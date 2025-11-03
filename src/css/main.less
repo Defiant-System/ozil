@@ -75,8 +75,9 @@ content {
 			bottom: 0;
 			display: flex;
 			padding: 11px;
-			backdrop-filter: blur(23px);
+			backdrop-filter: blur(7px);
 			background: #0003;
+			box-shadow: 0 0 0 1px #fff2;
 			border-radius: 11px;
 		}
 
@@ -87,13 +88,15 @@ content {
 			height: 29px;
 			padding: 4px;
 			border-radius: 4px;
+			margin-left: 5px;
 			cursor: pointer;
 
 			&:nth-child(1) {
 				margin-left: 0;
 			}
 
-			&:hover {
+			&:hover,
+			&.active {
 				background: #fff2;
 
 				> i {
@@ -107,18 +110,23 @@ content {
 		}
 
 		.ctrl-menu {
+			background: #0003;
+			backdrop-filter: blur(7px);
 			position: absolute;
 			display: none;
 			right: 0px;
 			bottom: 100%;
-			margin-bottom: 11px;
+			margin-bottom: 7px;
+			border-radius: 11px;
+			box-shadow: 0 -1px 0 1px #fff2;
 
-			.wrapper {
-				backdrop-filter: blur(23px);
-				background: #0003;
+			&.show {
+				display: block;
+			}
+
+			.menu-wrapper {
 				position: relative;
 				padding: 11px;
-				border-radius: 11px;
 
 				hr {
 					background: none;
@@ -145,47 +153,26 @@ content {
 					}
 				}
 
-				.name {
-					display: inline-block;
-					vertical-align: middle;
-				}
-			}
+				span[data-click] {
+					display: block;
+					width: auto;
+					white-space: nowrap;
 
-			.arrow-down {
-				position: absolute;
-				bottom: -9px;
-				left: 50%;
-				width: 14px;
-				height: 9px;
-				margin-left: -6px;
-				// overflow: hidden;
-
-				&:before {
-					content: "";
-					position: absolute;
-					top: -4px;
-					left: 2px;
-					width: 8px;
-					height: 8px;
-					transform: rotate(45deg);
-					backdrop-filter: blur(23px);
-					background: #0003;
+					.name {
+						display: inline-block;
+						vertical-align: middle;
+						padding-left: 3px;
+					}
 				}
 			}
 
 			&.volume {
-				height: 147px;
-				right: 33px;
+				right: 31px;
 				
-				.wrapper {
-					display: flex;
-					flex-direction: column;
-				}
-
 				.track {
 					position: relative;
-					flex: 1;
-					margin: 7px 0;
+					height: 83px;
+					margin: 7px 0 9px;
 					--val: 0;
 
 					&:before,
@@ -223,22 +210,20 @@ content {
 			}
 
 			&.settings {
-				display: block;
-				right: -33px;
+				right: 0px;
 				
-				.wrapper {
+				.menu-wrapper {
+					top: auto;
+					right: auto;
 					display: block;
-					padding: 11px 0;
+					padding: 9px 0;
 
 					&.hidden {
 						display: none;
 					}
 
 					span[data-click] {
-						display: block;
-						width: auto;
-						white-space: nowrap;
-						padding: 4px 25px 4px 7px;
+						padding: 4px 25px 4px 11px;
 						border-radius: 0;
 					}
 				}

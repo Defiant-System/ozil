@@ -1,8 +1,8 @@
 <MenuBar>
-	<Menu name="Ozil">
-		<Menu name="About Ozil" shell="win -a"/>
+	<Menu name="Ozil Player">
+		<Menu name="About Ozil Player" shell="win -a"/>
 		<Menu type="divider"/>
-		<Menu name="Quit Ozil" shell="win -c"/>
+		<Menu name="Quit Ozil Player" shell="win -c"/>
 	</Menu>
 	<Menu name="Help">
 		<Menu name="Help" click="open-help"/>
