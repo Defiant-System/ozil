@@ -29,7 +29,12 @@
 				}
 				break;
 			case "toggle-menu":
-				event.el.hasClass("active");
+				// el = Self.els.controls.find(`.ctrl-menu.show`);
+				// if (!el.isSame(event.el)) {
+				// 	Self.els.controls.find(`span[data-click="toggle-menu"].active`).removeClass("active");
+				// 	el.removeClass("show");
+				// }
+				event.el.addClass("active");
 				value = event.el.data("arg");
 				// render menu
 				pEl = window.render({
@@ -51,19 +56,24 @@
 				pEl = event.el.parents(".ctrl-menu");
 				event.el.parents(".menu-wrapper").addClass("hidden");
 				// render menu
-				window.render({
+				pEl = window.render({
 					template: "controls-sub-menu",
 					match: `//Menu[@name="${event.el.find(".name").text()}"]`,
 					append: pEl,
 				});
-				// menu dimensions
-				// pEl.parent().css({ right: -pEl.next(".menu-wrapper").width() >> 1 });
+				// position menu
+				el = Self.els.content.find(`span.active`);
+				offset = el.offset();
+				pEl.parent().css({ left: offset.left + (offset.width / 2) - (pEl.width() / 2) });
 				break;
 			case "menu-go-back":
 				el = event.el.parents(".menu-wrapper");
-				value = el.data("for");
-				el.addClass("hidden");
-				Self.els.controls.find(`.menu-wrapper [data-arg="${value}"]`).parents(".menu-wrapper").removeClass("hidden");
+				pEl = el.prev(".menu-wrapper").removeClass("hidden");
+				el.remove();
+				// position menu
+				el = Self.els.content.find(`span.active`);
+				offset = el.offset();
+				pEl.parent().css({ left: offset.left + (offset.width / 2) - (pEl.width() / 2) });
 				break;
 		}
 	}

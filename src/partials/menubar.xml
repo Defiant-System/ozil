@@ -3,12 +3,12 @@
 		<Menu name="About Ozil Player" shell="win -a"/>
 		<Menu type="divider"/>
 		<Menu name="Settings" for="settings">
-			<Menu name="Capt1ions" icon="icon-cc">
-				<Menu name="Disabled"/>
+			<Menu name="Captions" icon="icon-cc">
+				<Menu name="Disabled" arg="none"/>
 				<Menu type="divider"/>
-				<Menu name="English" is_checked="1"/>
-				<Menu name="Danish"/>
-				<Menu name="Swedish"/>
+				<Menu name="English" arg="en" is_checked="1"/>
+				<Menu name="Danish" arg="dk"/>
+				<Menu name="Swedish" arg="se"/>
 			</Menu>
 			<Menu name="Speed" icon="icon-speed">
 				<Menu name="0.5x"/>

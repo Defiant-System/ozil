@@ -15,7 +15,8 @@
 
 
 	<xsl:template name="controls-settings-menu">
-		<div class="ctrl-menu settings">
+		<div>
+			<xsl:attribute name="class">ctrl-menu <xsl:value-of select="@for"/></xsl:attribute>
 			<div class="menu-wrapper">
 				<xsl:for-each select="./*">
 					<xsl:call-template name="controls-menu-item" />
@@ -29,25 +30,12 @@
 		<div class="menu-wrapper" data-for="captions">
 			<span data-click="menu-go-back">
 				<i class="icon-back"></i>
-				<span class="name">Speed</span>
+				<span class="name"><xsl:value-of select="@name"/></span>
 			</span>
 			<hr />
-			<span data-click="set-language" data-arg="none">
-				<i class="icon-radio"></i>
-				<span class="name">Disabled</span>
-			</span>
-			<span data-click="set-language" data-arg="en">
-				<i class="icon-radio"></i>
-				<span class="name">English</span>
-			</span>
-			<span data-click="set-language" data-arg="se">
-				<i class="icon-radio-checked"></i>
-				<span class="name">Svenska</span>
-			</span>
-			<span data-click="set-language" data-arg="fr">
-				<i class="icon-radio"></i>
-				<span class="name">French</span>
-			</span>
+			<xsl:for-each select="./*">
+				<xsl:call-template name="controls-menu-item" />
+			</xsl:for-each>
 		</div>
 	</xsl:template>
 
@@ -59,7 +47,14 @@
 				<hr/>
 			</xsl:when>
 			<xsl:otherwise>
-				<span data-click="menu-go-sub" data-arg="captions">
+				<span>
+					<xsl:if test="count(./*) &gt; 0">
+						<xsl:attribute name="data-click">menu-go-sub</xsl:attribute>
+						<xsl:attribute name="data-arg"><xsl:value-of select="@name"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="count(./*) = 0">
+						<xsl:attribute name="data-click"><xsl:value-of select="@click"/></xsl:attribute>
+					</xsl:if>
 					<i><xsl:attribute name="class"><xsl:value-of select="@icon"/></xsl:attribute></i>
 					<span class="name"><xsl:value-of select="@name"/></span>
 				</span>
