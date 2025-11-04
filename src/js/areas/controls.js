@@ -12,7 +12,9 @@
 	dispatch(event) {
 		let APP = ozil,
 			Self = APP.controls,
+			offset,
 			value,
+			pEl,
 			el;
 		// console.log(event);
 		switch (event.type) {
@@ -27,15 +29,41 @@
 				}
 				break;
 			case "toggle-menu":
-				el = Self.els.controls.find(`.ctrl-menu.show`);
-				if (!el.isSame(event.el)) {
-					Self.els.controls.find(`span[data-click="toggle-menu"].active`).removeClass("active");
-					el.removeClass("show");
-				}
+				event.el.hasClass("active");
+				value = event.el.data("arg");
+				// render menu
+				pEl = window.render({
+					template: `controls-${value}-menu`,
+					match: `//Menu[@for="${value}"]`,
+					append: Self.els.controls,
+				});
+				// position menu
+				offset = event.el.offset();
+				pEl.css({ left : offset.left + (offset.width / 2) - (pEl.width() / 2) });
 
-				value = event.el.hasClass("active");
-				event.el.toggleClass("active", value);
-				Self.els.controls.find(`.ctrl-menu.${event.el.data("arg")}`).toggleClass("show", value);
+				setTimeout(() => 
+					pEl.cssSequence("appear", "transitionend", el => {
+						// console.log( pEl );
+					}));
+				break;
+			case "menu-go-sub":
+				value = event.el.data("arg");
+				pEl = event.el.parents(".ctrl-menu");
+				event.el.parents(".menu-wrapper").addClass("hidden");
+				// render menu
+				window.render({
+					template: "controls-sub-menu",
+					match: `//Menu[@name="${event.el.find(".name").text()}"]`,
+					append: pEl,
+				});
+				// menu dimensions
+				// pEl.parent().css({ right: -pEl.next(".menu-wrapper").width() >> 1 });
+				break;
+			case "menu-go-back":
+				el = event.el.parents(".menu-wrapper");
+				value = el.data("for");
+				el.addClass("hidden");
+				Self.els.controls.find(`.menu-wrapper [data-arg="${value}"]`).parents(".menu-wrapper").removeClass("hidden");
 				break;
 		}
 	}

@@ -90,7 +90,7 @@ content {
 
 		span[data-hover],
 		span[data-click],
-		span.has-submenu {
+		span[data-click="menu-go-sub"] {
 			position: relative;
 			width: 29px;
 			height: 29px;
@@ -117,14 +117,17 @@ content {
 			background: #0003;
 			backdrop-filter: blur(23px);
 			position: absolute;
-			display: none;
-			right: 0px;
+			left: 0;
 			bottom: 100%;
 			margin-bottom: 9px;
 			border-radius: 11px;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 120ms ease-in-out;
 
-			&.show {
-				display: block;
+			&.appear {
+				opacity: 1;
+				pointer-events: all;
 			}
 
 			.menu-wrapper {
@@ -182,11 +185,15 @@ content {
 				}
 
 				span[data-click],
-				span.has-submenu {
+				span[data-click="menu-go-sub"] {
 					white-space: nowrap;
 					display: block;
 					width: auto;
 					cursor: pointer;
+
+					> i {
+						margin-right: 3px;
+					}
 
 					.name {
 						display: inline-block;
@@ -197,8 +204,6 @@ content {
 			}
 
 			&.volume {
-				right: 35px;
-				
 				.track {
 					position: relative;
 					height: 83px;
@@ -240,8 +245,6 @@ content {
 			}
 
 			&.settings {
-				right: -54px;
-				
 				.menu-wrapper {
 					top: auto;
 					right: auto;
@@ -253,9 +256,27 @@ content {
 					}
 
 					span[data-click],
-					span.has-submenu {
-						padding: 4px 25px 4px 11px;
+					span[data-click="menu-go-sub"] {
+						padding: 4px 29px 4px 11px;
 						border-radius: 0;
+
+						&[data-click="menu-go-sub"] {
+							&:hover:after {
+								filter: invert(1) opacity(1);
+							}
+
+							&:after {
+								content: "";
+								position: absolute;
+								top: 8px;
+								right: 5px;
+								width: 13px;
+								height: 13px;
+								background: url(~/icons/icon-play.png) 50% 50% no-repeat;
+								background-size: 10px auto;
+								filter: invert(1) opacity(.8);
+							}
+						}
 					}
 				}
 			}

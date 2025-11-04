@@ -3,7 +3,8 @@ let Test = {
 	init(APP) {
 		// return;
 
-		return APP.content.find(`.controls span[data-click="toggle-menu"]`).get(1).trigger("click");
-
+		setTimeout(() => APP.content.find(`.controls span[data-click="toggle-menu"]:nth(1)`).trigger("click"), 400);
+		// setTimeout(() => APP.content.find(`span[data-click="menu-go-sub"]:nth(0)`).trigger("click"), 500);
+		return;
 	}
 };

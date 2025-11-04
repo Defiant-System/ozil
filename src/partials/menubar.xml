@@ -2,34 +2,39 @@
 	<Menu name="Ozil Player">
 		<Menu name="About Ozil Player" shell="win -a"/>
 		<Menu type="divider"/>
-		<Menu name="Quit Ozil Player" shell="win -c"/>
-	</Menu>
-	<Menu name="Settings">
-		<Menu name="Captions">
-			<Menu name="Disabled"/>
+		<Menu name="Settings" for="settings">
+			<Menu name="Capt1ions" icon="icon-cc">
+				<Menu name="Disabled"/>
+				<Menu type="divider"/>
+				<Menu name="English" is_checked="1"/>
+				<Menu name="Danish"/>
+				<Menu name="Swedish"/>
+			</Menu>
+			<Menu name="Speed" icon="icon-speed">
+				<Menu name="0.5x"/>
+				<Menu name="0.75x"/>
+				<Menu name="Normal"/>
+				<Menu name="1.25x"/>
+				<Menu name="1.5x"/>
+				<Menu name="1.75x"/>
+				<Menu name="2x"/>
+				<Menu name="4x"/>
+			</Menu>
+			<Menu name="Quality" icon="icon-quality">
+				<Menu name="1080p"/>
+				<Menu name="720p"/>
+				<Menu name="576p"/>
+			</Menu>
 			<Menu type="divider"/>
-			<Menu name="English" is_checked="1"/>
-			<Menu name="Danish"/>
-			<Menu name="Swedish"/>
+			<Menu name="Picture in Picture" icon="icon-pip"/>
+			<Menu name="Enter Fullscreen" icon="icon-expand"/>
 		</Menu>
-		<Menu name="Speed">
-			<Menu name="0.5x"/>
-			<Menu name="0.75x"/>
-			<Menu name="Normal"/>
-			<Menu name="1.25x"/>
-			<Menu name="1.5x"/>
-			<Menu name="1.75x"/>
-			<Menu name="2x"/>
-			<Menu name="4x"/>
-		</Menu>
-		<Menu name="Quality">
-			<Menu name="1080p"/>
-			<Menu name="720p"/>
-			<Menu name="576p"/>
+		<Menu name="Volume" for="volume">
+			<Menu type="caption" name="Volume:"/>
+			<Menu type="slider" min="0" max="100" value="73"/>
 		</Menu>
 		<Menu type="divider"/>
-		<Menu name="Picture in Picture"/>
-		<Menu name="Enter Fullscreen"/>
+		<Menu name="Quit Ozil Player" shell="win -c"/>
 	</Menu>
 	<Menu name="Help">
 		<Menu name="Help" click="open-help"/>
