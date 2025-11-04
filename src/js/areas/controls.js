@@ -45,6 +45,8 @@
 				// position menu
 				offset = event.el.offset();
 				pEl.css({ left : offset.left + (offset.width / 2) - (pEl.width() / 2) });
+				// "tag" window content
+				Self.els.content.data({ click: "menu-close" });
 
 				setTimeout(() => 
 					pEl.cssSequence("appear", "transitionend", el => {
@@ -85,6 +87,17 @@
 				});
 				// remove old menu
 				event.el.parents(".menu-wrapper").remove();
+				break;
+			case "menu-close":
+				// reset window content
+				Self.els.content.removeAttr("data-click");
+				Self.els.content.find(`span[data-click].active`).removeClass("active");
+				// smooth disappear
+				Self.els.controls.find(".ctrl-menu.appear")
+					.cssSequence("disappear", "transitionend", el => {
+						// delete element from DOM
+						el.remove();
+					});
 				break;
 		}
 	}

@@ -9,6 +9,19 @@ content {
 	left: 0;
 	right: 0;
 	bottom: 0;
+
+	&[data-click="menu-close"] {
+		&:before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 2;
+			background: #fff0;
+		}
+	}
 	
 	[class*="icon-"],
 	[class^="icon-"] {
@@ -52,6 +65,7 @@ content {
 		left: 0;
 		width: 100%;
 		height: 100%;
+		z-index: 1;
 		background: 50% 50% no-repeat;
 		background-size: auto 100%;
 
@@ -66,6 +80,7 @@ content {
 		left: 50%;
 		width: 580px;
 		height: 51px;
+		z-index: 3;
 		margin-left: -290px;
 		color: #eee;
 		text-shadow: 0 1px 0 #0002;
@@ -126,9 +141,19 @@ content {
 			transition: opacity 120ms ease-in-out;
 
 			&.showing {
-				transition: left 150ms ease-in-out,
+				transition: opacity 120ms ease-in-out,
+							left 150ms ease-in-out,
 							width 150ms ease-in-out,
 							height 150ms ease-in-out;
+			}
+
+			&.appear {
+				opacity: 1;
+				pointer-events: all;
+			}
+
+			&.disappear {
+				opacity: 0;
 			}
 
 			&:before {
@@ -162,11 +187,6 @@ content {
 				width: inherit;
 				height: inherit;
 				overflow: hidden;
-			}
-
-			&.appear {
-				opacity: 1;
-				pointer-events: all;
 			}
 
 			.menu-wrapper {

@@ -33,6 +33,8 @@ const ozil = {
 			case "set-wp":
 				Self.content.find("> .wrapper").data({ wp: event.arg });
 				break;
+			case "menu-close":
+				return Self.controls.dispatch(event);
 			default:
 				el = event.el;
 				if (!el && event.origin) el = event.origin.el;
