@@ -125,6 +125,45 @@ content {
 			pointer-events: none;
 			transition: opacity 120ms ease-in-out;
 
+			&.showing {
+				transition: left 150ms ease-in-out,
+							width 150ms ease-in-out,
+							height 150ms ease-in-out;
+			}
+
+			&:before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				border-radius: inherit;
+				box-shadow: 0 0 0 1px #fff4;
+			}
+
+			&:after {
+				content: "";
+				position: absolute;
+				bottom: -7px;
+				left: 50%;
+				width: 0;
+				height: 0;
+				margin-left: -4px;
+				border-top: 6px solid #fff5;
+				border-left: 5px solid transparent;
+				border-right: 5px solid transparent;
+			}
+
+			> div {
+				position: relative;
+				top: 0;
+				left: 0;
+				width: inherit;
+				height: inherit;
+				overflow: hidden;
+			}
+
 			&.appear {
 				opacity: 1;
 				pointer-events: all;
@@ -134,30 +173,6 @@ content {
 				position: relative;
 				padding: 11px;
 				border-radius: inherit;
-
-				&:before {
-					content: "";
-					position: absolute;
-					top: 0;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					border-radius: inherit;
-					box-shadow: 0 0 0 1px #fff4;
-				}
-
-				&:after {
-					content: "";
-					position: absolute;
-					bottom: -7px;
-					left: 50%;
-					width: 0;
-					height: 0;
-					margin-left: -4px;
-					border-top: 6px solid #fff5;
-					border-left: 5px solid transparent;
-					border-right: 5px solid transparent;
-				}
 
 				hr {
 					background: none;
@@ -247,8 +262,8 @@ content {
 			&.settings {
 				.menu-wrapper {
 					top: auto;
-					right: auto;
-					display: block;
+					// right: auto;
+					display: inline-block;
 					padding: 9px 0;
 
 					&.hidden {

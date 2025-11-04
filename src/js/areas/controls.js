@@ -48,7 +48,9 @@
 
 				setTimeout(() => 
 					pEl.cssSequence("appear", "transitionend", el => {
-						// console.log( pEl );
+						let width = el.width(),
+							height = el.height();
+						el.addClass("showing").css({ width, height });
 					}));
 				break;
 			case "menu-go-sub":
@@ -59,21 +61,30 @@
 				pEl = window.render({
 					template: "controls-sub-menu",
 					match: `//Menu[@name="${event.el.find(".name").text()}"]`,
-					append: pEl,
+					append: pEl.find(" > div"),
 				});
 				// position menu
 				el = Self.els.content.find(`span.active`);
 				offset = el.offset();
-				pEl.parent().css({ left: offset.left + (offset.width / 2) - (pEl.width() / 2) });
+				pEl.parents(".ctrl-menu").css({
+					left: offset.left + (offset.width / 2) - (pEl.width() / 2),
+					width: pEl.width(),
+					height: pEl.height(),
+				});
 				break;
 			case "menu-go-back":
 				el = event.el.parents(".menu-wrapper");
 				pEl = el.prev(".menu-wrapper").removeClass("hidden");
-				el.remove();
 				// position menu
 				el = Self.els.content.find(`span.active`);
 				offset = el.offset();
-				pEl.parent().css({ left: offset.left + (offset.width / 2) - (pEl.width() / 2) });
+				pEl.parents(".ctrl-menu").css({
+					left: offset.left + (offset.width / 2) - (pEl.width() / 2),
+					width: pEl.width(),
+					height: pEl.height(),
+				});
+				// remove old menu
+				event.el.parents(".menu-wrapper").remove();
 				break;
 		}
 	}

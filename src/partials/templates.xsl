@@ -17,10 +17,12 @@
 	<xsl:template name="controls-settings-menu">
 		<div>
 			<xsl:attribute name="class">ctrl-menu <xsl:value-of select="@for"/></xsl:attribute>
-			<div class="menu-wrapper">
-				<xsl:for-each select="./*">
-					<xsl:call-template name="controls-menu-item" />
-				</xsl:for-each>
+			<div>
+				<div class="menu-wrapper">
+					<xsl:for-each select="./*">
+						<xsl:call-template name="controls-menu-item" />
+					</xsl:for-each>
+				</div>
 			</div>
 		</div>
 	</xsl:template>
