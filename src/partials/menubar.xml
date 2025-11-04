@@ -31,7 +31,7 @@
 		</Menu>
 		<Menu name="Volume" for="volume">
 			<Menu type="caption" name="Volume:"/>
-			<Menu type="slider" min="0" max="100" value="50"/>
+			<Menu type="slider" min="0" max="100" value="73"/>
 			<Menu name="Toggle Volume" click="toggle-mute"/>
 		</Menu>
 		<Menu type="divider"/>

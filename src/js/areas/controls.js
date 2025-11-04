@@ -149,17 +149,19 @@
 				}
 
 				let doc = $(document),
+					played = el.parent().find(".played"),
 					knob = el.find(".knob"),
-					val = parseInt(el.cssProp("--val"), 10),
+					dur = +el.cssProp("--dur"),
 					clickX = event.clientX,
 					max = +el.prop("offsetWidth"),
 					min = 0;
 
+				pEl = el.parent();
 				knob.css({ left: oX +"px" });
 				clickX -= +knob.prop("offsetLeft") + 7;
 
 				// drag start info
-				Self.drag = { doc, el, knob, val, max, min, clickX };
+				Self.drag = { doc, el, pEl, played, knob, dur, max, min, clickX };
 
 				// trigger fake "mousemove"
 				Self.doSeek({ type: "mousemove", clientX: event.clientX });
@@ -173,7 +175,12 @@
 					proc = left / (Drag.max - Drag.min);
 				Drag.knob.css({ left });
 				// update --val
-				Drag.el.css({ "--val": `${(proc * 100) | 0}%` });
+				Drag.pEl.css({ "--val": `${(proc * 100) | 0}%` });
+
+				let pos = (Drag.dur * proc) | 0,
+					minutes = parseInt(pos/60),
+					seconds = parseInt(pos%60).toString().padStart(2, "0");
+				Drag.played.html(`${minutes}:${seconds}`);
 				break;
 			case "mouseup":
 				// unhide cursor
