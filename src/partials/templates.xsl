@@ -3,10 +3,11 @@
 	<xsl:template name="controls-volume-menu">
 		<div class="ctrl-menu volume">
 			<div class="menu-wrapper">
-				<div class="track" style="--val: 73%;">
-					<span class="nob"></span>
+				<div class="track">
+					<xsl:attribute name="style">--val: <xsl:value-of select="//Menu[@for='volume']/Menu[@type='slider']/@value"/>%;</xsl:attribute>
+					<span class="knob"></span>
 				</div>
-				<span data-click="volume-mute">
+				<span data-click="toggle-mute">
 					<i class="icon-volume-mute"></i>
 				</span>
 			</div>
@@ -29,7 +30,8 @@
 
 
 	<xsl:template name="controls-sub-menu">
-		<div class="menu-wrapper" data-for="captions">
+		<div class="menu-wrapper">
+			<xsl:attribute name="data-for"><xsl:value-of select="@for"/></xsl:attribute>
 			<span data-click="menu-go-back">
 				<i class="icon-back"></i>
 				<span class="name"><xsl:value-of select="@name"/></span>

@@ -7,7 +7,10 @@
 		this.els = {
 			content: window.find("content"),
 			controls: window.find(".controls"),
+			progress: window.find(".controls .progress .track"),
 		};
+		// bind event handlers
+		this.els.progress.bind("mousedown", this.doSeek);
 	},
 	dispatch(event) {
 		let APP = ozil,
@@ -19,21 +22,14 @@
 		// console.log(event);
 		switch (event.type) {
 			// custom events
-			case "toggle-play":
-				el = event.el.find("i");
-				value = el.hasClass("icon-play");
-				if (value) {
-					el.removeClass("icon-play").addClass("icon-pause");
-				} else {
-					el.removeClass("icon-pause").addClass("icon-play");
-				}
-				break;
 			case "toggle-menu":
-				// el = Self.els.controls.find(`.ctrl-menu.show`);
-				// if (!el.isSame(event.el)) {
-				// 	Self.els.controls.find(`span[data-click="toggle-menu"].active`).removeClass("active");
-				// 	el.removeClass("show");
-				// }
+				if (event.el.hasClass("active")) {
+					return Self.dispatch({ type: "menu-close" });
+				}
+				if (Self.els.content.find(".ctrl-menu.showing").length) {
+					setTimeout(() => Self.dispatch(event), 160);
+					return Self.dispatch({ type: "menu-close" });
+				}
 				event.el.addClass("active");
 				value = event.el.data("arg");
 				// render menu
@@ -98,6 +94,77 @@
 						// delete element from DOM
 						el.remove();
 					});
+				break;
+			case "toggle-play":
+				el = event.el.find("i");
+				value = el.hasClass("icon-play");
+				if (value) {
+					el.removeClass("icon-play").addClass("icon-pause");
+				} else {
+					el.removeClass("icon-pause").addClass("icon-play");
+				}
+				break;
+			case "toggle-mute":
+				el = Self.els.content.find(`span[data-click].active i`);
+				value = el.hasClass("icon-volume");
+				if (value) {
+					el.removeClass("icon-volume").addClass("icon-volume-mute");
+				} else {
+					el.removeClass("icon-volume-mute").addClass("icon-volume");
+				}
+				Self.dispatch({ type: "menu-close" });
+				break;
+			case "set-subtitle":
+			case "set-speed":
+			case "set-quailty":
+			case "toggle-pip":
+			case "toggle-fullsceen":
+				Self.dispatch({ type: "menu-close" });
+				break;
+		}
+	},
+	doSeek(event) {
+		let APP = ozil,
+			Self = APP.controls,
+			Drag = Self.drag,
+			el;
+		// console.log( event );
+		switch (event.type) {
+			// native events
+			case "mousedown":
+				// prevent default behaviour
+				event.preventDefault();
+
+				let el = $(event.target); // track element
+				if (el.hasClass("knob")) el = el.parent();
+
+				let doc = $(document),
+					knob = el.find(".knob"),
+					val = parseInt(el.cssProp("--val"), 10),
+					clickX = event.clientX - +knob.prop("offsetLeft"),
+					max = +el.prop("offsetWidth"),
+					min = 0;
+
+				// drag start info
+				Self.drag = { doc, el, knob, val, max, min, clickX };
+
+				// hides cursor
+				Self.els.content.addClass("hide-cursor");
+				// bind event handlers
+				Self.drag.doc.on("mousemove mouseup", Self.doSeek);
+				break;
+			case "mousemove":
+				let left = Math.max(Math.min(event.clientX - Drag.clickX, Drag.max), Drag.min),
+					proc = left / (Drag.max - Drag.min);
+				Drag.knob.css({ left });
+				// update --val
+				Drag.el.css({ "--val": `${(proc * 100) | 0}%` });
+				break;
+			case "mouseup":
+				// unhide cursor
+				Self.els.content.removeClass("hide-cursor");
+				// unbind event handlers
+				Drag.doc.off("mousemove mouseup", Self.doSeek);
 				break;
 		}
 	}

@@ -4,34 +4,35 @@
 		<Menu type="divider"/>
 		<Menu name="Settings" for="settings">
 			<Menu name="Captions" icon="icon-cc">
-				<Menu name="Disabled" arg="none"/>
+				<Menu name="Disabled" click="set-subtitle" arg="none"/>
 				<Menu type="divider"/>
-				<Menu name="English" arg="en" is_checked="1"/>
-				<Menu name="Danish" arg="dk"/>
-				<Menu name="Swedish" arg="se"/>
+				<Menu name="English" click="set-subtitle" arg="en" is_checked="1"/>
+				<Menu name="Danish" click="set-subtitle" arg="dk"/>
+				<Menu name="Swedish" click="set-subtitle" arg="se"/>
 			</Menu>
 			<Menu name="Speed" icon="icon-speed">
-				<Menu name="0.5x"/>
-				<Menu name="0.75x"/>
-				<Menu name="Normal"/>
-				<Menu name="1.25x"/>
-				<Menu name="1.5x"/>
-				<Menu name="1.75x"/>
-				<Menu name="2x"/>
-				<Menu name="4x"/>
+				<Menu name="0.5x" click="set-speed" arg="0.5"/>
+				<Menu name="0.75x" click="set-speed" arg="0.75"/>
+				<Menu name="Normal" click="set-speed" arg="1"/>
+				<Menu name="1.25x" click="set-speed" arg="1.25"/>
+				<Menu name="1.5x" click="set-speed" arg="1.5"/>
+				<Menu name="1.75x" click="set-speed" arg="1.75"/>
+				<Menu name="2x" click="set-speed" arg="2"/>
+				<Menu name="4x" click="set-speed" arg="4"/>
 			</Menu>
 			<Menu name="Quality" icon="icon-quality">
-				<Menu name="1080p"/>
-				<Menu name="720p"/>
-				<Menu name="576p"/>
+				<Menu name="1080p" click="set-quailty" arg="1080"/>
+				<Menu name="720p" click="set-quailty" arg="720"/>
+				<Menu name="576p" click="set-quailty" arg="576"/>
 			</Menu>
 			<Menu type="divider"/>
-			<Menu name="Picture in Picture" icon="icon-pip"/>
-			<Menu name="Enter Fullscreen" icon="icon-expand"/>
+			<Menu name="Picture in Picture" icon="icon-pip" click="toggle-pip"/>
+			<Menu name="Enter Fullscreen" icon="icon-expand" click="toggle-fullsceen"/>
 		</Menu>
 		<Menu name="Volume" for="volume">
 			<Menu type="caption" name="Volume:"/>
-			<Menu type="slider" min="0" max="100" value="73"/>
+			<Menu type="slider" min="0" max="100" value="50"/>
+			<Menu name="Toggle Volume" click="toggle-mute"/>
 		</Menu>
 		<Menu type="divider"/>
 		<Menu name="Quit Ozil Player" shell="win -c"/>
