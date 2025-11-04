@@ -7,10 +7,9 @@
 		this.els = {
 			content: window.find("content"),
 			controls: window.find(".controls"),
-			progress: window.find(".controls .progress .track"),
 		};
 		// bind event handlers
-		this.els.progress.bind("mousedown", this.doSeek);
+		this.els.controls.bind("mousedown", this.doSeek);
 	},
 	dispatch(event) {
 		let APP = ozil,
@@ -135,19 +134,35 @@
 				// prevent default behaviour
 				event.preventDefault();
 
-				let el = $(event.target); // track element
-				if (el.hasClass("knob")) el = el.parent();
+				let el = $(event.target),
+					pEl = el.parent().data("track"),
+					oX = event.offsetX;
+				switch (true) {
+					case el.hasClass("knob") && pEl === "seek":
+						oX += +el.prop("offsetLeft");
+						el = el.parent();
+						break;
+					case el.data("track") === "seek": break;
+					case el.hasClass("knob") && pEl === "volume": return Self.doVolume(event);
+					case el.data("track") === "volume": return Self.doVolume(event);
+					default: return;
+				}
 
 				let doc = $(document),
 					knob = el.find(".knob"),
 					val = parseInt(el.cssProp("--val"), 10),
-					clickX = event.clientX - +knob.prop("offsetLeft"),
+					clickX = event.clientX,
 					max = +el.prop("offsetWidth"),
 					min = 0;
+
+				knob.css({ left: oX +"px" });
+				clickX -= +knob.prop("offsetLeft") + 7;
 
 				// drag start info
 				Self.drag = { doc, el, knob, val, max, min, clickX };
 
+				// trigger fake "mousemove"
+				Self.doSeek({ type: "mousemove", clientX: event.clientX });
 				// hides cursor
 				Self.els.content.addClass("hide-cursor");
 				// bind event handlers
@@ -165,6 +180,59 @@
 				Self.els.content.removeClass("hide-cursor");
 				// unbind event handlers
 				Drag.doc.off("mousemove mouseup", Self.doSeek);
+				break;
+		}
+	},
+	doVolume(event) {
+		let APP = ozil,
+			Self = APP.controls,
+			Drag = Self.drag,
+			el;
+		// console.log( event );
+		switch (event.type) {
+			// native events
+			case "mousedown":
+				// prevent default behaviour
+				event.preventDefault();
+
+				let el = $(event.target),
+					oY = event.offsetY;
+				if (el.hasClass("knob")) {
+					oY += +el.prop("offsetTop");
+					el = el.parent();
+				}
+
+				let doc = $(document),
+					knob = el.find(".knob"),
+					clickY = event.clientY,
+					max = +el.prop("offsetHeight"),
+					min = 0;
+
+				knob.css({ top: oY +"px" });
+				clickY -= +knob.prop("offsetTop") + 7;
+
+				// drag start info
+				Self.drag = { doc, el, knob, max, min, clickY };
+
+				// trigger fake "mousemove"
+				Self.doVolume({ type: "mousemove", clientY: event.clientY });
+				// hides cursor
+				Self.els.content.addClass("hide-cursor");
+				// bind event handlers
+				Self.drag.doc.on("mousemove mouseup", Self.doVolume);
+				break;
+			case "mousemove":
+				let top = Math.max(Math.min(event.clientY - Drag.clickY, Drag.max), Drag.min),
+					proc = top / (Drag.max - Drag.min);
+				Drag.knob.css({ top });
+				// update --val
+				Drag.el.css({ "--val": `${((1-proc) * 100) | 0}%` });
+				break;
+			case "mouseup":
+				// unhide cursor
+				Self.els.content.removeClass("hide-cursor");
+				// unbind event handlers
+				Drag.doc.off("mousemove mouseup", Self.doVolume);
 				break;
 		}
 	}

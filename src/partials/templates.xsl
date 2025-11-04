@@ -3,7 +3,7 @@
 	<xsl:template name="controls-volume-menu">
 		<div class="ctrl-menu volume">
 			<div class="menu-wrapper">
-				<div class="track">
+				<div class="track" data-track="volume">
 					<xsl:attribute name="style">--val: <xsl:value-of select="//Menu[@for='volume']/Menu[@type='slider']/@value"/>%;</xsl:attribute>
 					<span class="knob"></span>
 				</div>
