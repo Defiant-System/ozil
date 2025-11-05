@@ -95,16 +95,30 @@ content {
 		&[data-wp="3"] { background-image: url(~/img/galadriel.webp); }
 	}
 
+	&:hover {
+		.controls {
+			opacity: 1;
+			bottom: 29px;
+
+			.wrapper {
+				backdrop-filter: blur(23px);
+			}
+		}
+	}
+
 	.controls {
 		position: absolute;
-		bottom: 29px;
+		bottom: 7px;
 		left: 50%;
 		width: 580px;
 		height: 51px;
+		opacity: 0;
 		z-index: 3;
 		margin-left: -290px;
 		color: #eee;
 		text-shadow: 0 1px 0 #0002;
+		transition: opacity 200ms ease-in-out,
+					bottom 200ms ease-in-out;
 
 		.wrapper {
 			position: absolute;
@@ -114,17 +128,17 @@ content {
 			bottom: 0;
 			display: flex;
 			padding: 11px;
-			backdrop-filter: blur(23px);
+			backdrop-filter: blur(0px);
 			background: #0003;
 			box-shadow: 0 0 0 1px #fff3;
 			border-radius: 11px;
+			transition: backdrop-filter 500ms ease-in-out;
 
 			> span {
 				margin-left: 5px;
 			}
 		}
 
-		span[data-hover],
 		span[data-click],
 		span[data-click="menu-go-sub"] {
 			position: relative;
@@ -137,6 +151,18 @@ content {
 
 			&:nth-child(1) {
 				margin-left: 0;
+			}
+
+			&[data-arg="settings"] {
+				&:hover i,
+				&.active i {
+					transform: rotate(50deg);
+				}
+
+				i {
+					transform: rotate(0deg);
+					transition: transform 150ms ease-in-out;
+				}
 			}
 
 			&:hover,

@@ -4,6 +4,7 @@
 		<div class="ctrl-menu volume">
 			<div class="menu-wrapper">
 				<div class="track" data-track="volume">
+					<xsl:attribute name="data-change"><xsl:value-of select="//Menu[@for='volume']/Menu[@type='slider']/@change"/></xsl:attribute>
 					<xsl:attribute name="style">--val: <xsl:value-of select="//Menu[@for='volume']/Menu[@type='slider']/@value"/>%;</xsl:attribute>
 					<span class="knob"></span>
 				</div>
@@ -59,7 +60,13 @@
 					<xsl:if test="count(./*) = 0">
 						<xsl:attribute name="data-click"><xsl:value-of select="@click"/></xsl:attribute>
 					</xsl:if>
-					<i><xsl:attribute name="class"><xsl:value-of select="@icon"/></xsl:attribute></i>
+					<i><xsl:attribute name="class">
+						<xsl:choose>
+							<xsl:when test="@is-checked='1'">icon-radio-checked</xsl:when>
+							<xsl:when test="@check-group">icon-radio</xsl:when>
+							<xsl:otherwise><xsl:value-of select="@icon"/></xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute></i>
 					<span class="name"><xsl:value-of select="@name"/></span>
 				</span>
 			</xsl:otherwise>

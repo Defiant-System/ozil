@@ -7,6 +7,7 @@
 		this.els = {
 			content: window.find("content"),
 			controls: window.find(".controls"),
+			iconVolume: window.find(`.controls span[data-click="toggle-menu"][data-arg="volume"] i`),
 		};
 		// bind event handlers
 		this.els.controls.bind("mousedown", this.doSeek);
@@ -21,6 +22,14 @@
 		// console.log(event);
 		switch (event.type) {
 			// custom events
+			case "update-seek":
+				console.log(event);
+				break;
+			case "update-volume":
+				value = event.val <= 0;
+				// volume icon
+				Self.els.iconVolume.toggleClass("icon-volume-mute", !value);
+				break;
 			case "toggle-menu":
 				if (event.el.hasClass("active")) {
 					return Self.dispatch({ type: "menu-close" });
@@ -104,14 +113,19 @@
 				}
 				break;
 			case "toggle-mute":
-				el = Self.els.content.find(`span[data-click].active i`);
-				value = el.hasClass("icon-volume");
-				if (value) {
-					el.removeClass("icon-volume").addClass("icon-volume-mute");
+				el = Self.els.iconVolume;
+				pEl = Self.els.controls.find(`.track[data-change="update-volume"]`);
+
+				if (el.hasClass("icon-volume-mute")) {
+					value = +pEl.data("val");
 				} else {
-					el.removeClass("icon-volume-mute").addClass("icon-volume");
+					pEl.data({ val: parseInt(pEl.cssProp("--val"), 10) });
+					value = 0;
 				}
-				Self.dispatch({ type: "menu-close" });
+				pEl.css({ "--val": `${value}%` });
+
+				Self.dispatch({ type: "update-volume", val: value });
+				// Self.dispatch({ type: "menu-close" });
 				break;
 			case "set-subtitle":
 			case "set-speed":
@@ -154,14 +168,15 @@
 					dur = +el.cssProp("--dur"),
 					clickX = event.clientX,
 					max = +el.prop("offsetWidth"),
-					min = 0;
+					min = 0,
+					type = el.parent().data("change");
 
 				pEl = el.parent();
-				knob.css({ left: oX +"px" });
+				// knob.css({ left: oX +"px" });
 				clickX -= +knob.prop("offsetLeft") + 7;
 
 				// drag start info
-				Self.drag = { doc, el, pEl, played, knob, dur, max, min, clickX };
+				Self.drag = { doc, el, pEl, played, type, knob, dur, max, min, clickX };
 
 				// trigger fake "mousemove"
 				Self.doSeek({ type: "mousemove", clientX: event.clientX });
@@ -173,14 +188,16 @@
 			case "mousemove":
 				let left = Math.max(Math.min(event.clientX - Drag.clickX, Drag.max), Drag.min),
 					proc = left / (Drag.max - Drag.min);
-				Drag.knob.css({ left });
+				// Drag.knob.css({ left });
 				// update --val
 				Drag.pEl.css({ "--val": `${(proc * 100) | 0}%` });
-
-				let pos = (Drag.dur * proc) | 0,
-					minutes = parseInt(pos/60),
-					seconds = parseInt(pos%60).toString().padStart(2, "0");
+				// played time update
+				let val = (Drag.dur * proc) | 0,
+					minutes = parseInt(val/60),
+					seconds = parseInt(val%60).toString().padStart(2, "0");
 				Drag.played.html(`${minutes}:${seconds}`);
+				// dispatch event
+				Self.dispatch({ type: Drag.type, val });
 				break;
 			case "mouseup":
 				// unhide cursor
@@ -199,9 +216,6 @@
 		switch (event.type) {
 			// native events
 			case "mousedown":
-				// prevent default behaviour
-				event.preventDefault();
-
 				let el = $(event.target),
 					oY = event.offsetY;
 				if (el.hasClass("knob")) {
@@ -213,13 +227,13 @@
 					knob = el.find(".knob"),
 					clickY = event.clientY,
 					max = +el.prop("offsetHeight"),
-					min = 0;
-
-				knob.css({ top: oY +"px" });
+					min = 0,
+					type = el.data("change");
+				// knob.css({ top: oY +"px" });
 				clickY -= +knob.prop("offsetTop") + 7;
 
 				// drag start info
-				Self.drag = { doc, el, knob, max, min, clickY };
+				Self.drag = { doc, el, type, knob, max, min, clickY };
 
 				// trigger fake "mousemove"
 				Self.doVolume({ type: "mousemove", clientY: event.clientY });
@@ -230,10 +244,13 @@
 				break;
 			case "mousemove":
 				let top = Math.max(Math.min(event.clientY - Drag.clickY, Drag.max), Drag.min),
-					proc = top / (Drag.max - Drag.min);
-				Drag.knob.css({ top });
+					proc = 1 - (top / (Drag.max - Drag.min)),
+					val = (proc * 100) | 0;
+				// Drag.knob.css({ top });
 				// update --val
-				Drag.el.css({ "--val": `${((1-proc) * 100) | 0}%` });
+				Drag.el.css({ "--val": `${val}%` });
+				// dispatch event
+				Self.dispatch({ type: Drag.type, val });
 				break;
 			case "mouseup":
 				// unhide cursor

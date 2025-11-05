@@ -4,26 +4,26 @@
 		<Menu type="divider"/>
 		<Menu name="Settings" for="settings">
 			<Menu name="Captions" icon="icon-cc">
-				<Menu name="Disabled" click="set-subtitle" arg="none"/>
+				<Menu name="Disabled" click="set-subtitle" check-group="playback-subtitle" is-checked="1" arg="none"/>
 				<Menu type="divider"/>
-				<Menu name="English" click="set-subtitle" arg="en" is_checked="1"/>
-				<Menu name="Danish" click="set-subtitle" arg="dk"/>
-				<Menu name="Swedish" click="set-subtitle" arg="se"/>
+				<Menu name="English" click="set-subtitle" check-group="playback-subtitle" arg="en" is_checked="1"/>
+				<Menu name="Danish" click="set-subtitle" check-group="playback-subtitle" arg="dk"/>
+				<Menu name="Swedish" click="set-subtitle" check-group="playback-subtitle" arg="se"/>
 			</Menu>
 			<Menu name="Speed" icon="icon-speed">
-				<Menu name="0.5x" click="set-speed" arg="0.5"/>
-				<Menu name="0.75x" click="set-speed" arg="0.75"/>
-				<Menu name="Normal" click="set-speed" arg="1"/>
-				<Menu name="1.25x" click="set-speed" arg="1.25"/>
-				<Menu name="1.5x" click="set-speed" arg="1.5"/>
-				<Menu name="1.75x" click="set-speed" arg="1.75"/>
-				<Menu name="2x" click="set-speed" arg="2"/>
-				<Menu name="4x" click="set-speed" arg="4"/>
+				<Menu name="0.5x" click="set-speed" check-group="playback-speed" arg="0.5"/>
+				<Menu name="0.75x" click="set-speed" check-group="playback-speed" arg="0.75"/>
+				<Menu name="Normal" click="set-speed" check-group="playback-speed" is-checked="1" arg="1"/>
+				<Menu name="1.25x" click="set-speed" check-group="playback-speed" arg="1.25"/>
+				<Menu name="1.5x" click="set-speed" check-group="playback-speed" arg="1.5"/>
+				<Menu name="1.75x" click="set-speed" check-group="playback-speed" arg="1.75"/>
+				<Menu name="2x" click="set-speed" check-group="playback-speed" arg="2"/>
+				<Menu name="4x" click="set-speed" check-group="playback-speed" arg="4"/>
 			</Menu>
 			<Menu name="Quality" icon="icon-quality">
-				<Menu name="1080p" click="set-quailty" arg="1080"/>
-				<Menu name="720p" click="set-quailty" arg="720"/>
-				<Menu name="576p" click="set-quailty" arg="576"/>
+				<Menu name="1080p" click="set-quailty" check-group="playback-quality" arg="1080"/>
+				<Menu name="720p" click="set-quailty" check-group="playback-quality" is-checked="1" arg="720"/>
+				<Menu name="576p" click="set-quailty" check-group="playback-quality" arg="576"/>
 			</Menu>
 			<Menu type="divider"/>
 			<Menu name="Picture in Picture" icon="icon-pip" click="toggle-pip"/>
@@ -31,7 +31,7 @@
 		</Menu>
 		<Menu name="Volume" for="volume">
 			<Menu type="caption" name="Volume:"/>
-			<Menu type="slider" min="0" max="100" value="73"/>
+			<Menu type="slider" min="0" max="100" value="73" change="update-volume"/>
 			<Menu name="Toggle Volume" click="toggle-mute"/>
 		</Menu>
 		<Menu type="divider"/>
