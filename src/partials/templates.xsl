@@ -73,4 +73,29 @@
 		</xsl:choose>
 	</xsl:template>
 
+
+	<xsl:template name="media-file">
+		<video crossorigin="anonymous" playsinline="inline" preload="none">
+			<xsl:for-each select="./Meta[@id = 'source']">
+				<source>
+					<xsl:attribute name="src"><xsl:value-of select="@value"/></xsl:attribute>
+					<xsl:attribute name="type"><xsl:value-of select="@type"/></xsl:attribute>
+					<xsl:if test="@size">
+						<xsl:attribute name="size"><xsl:value-of select="@size"/></xsl:attribute>
+					</xsl:if>
+		        </source>
+			</xsl:for-each>
+			<xsl:for-each select="./Meta[@id = 'track']">
+				<track>
+					<xsl:attribute name="src"><xsl:value-of select="@value"/></xsl:attribute>
+					<xsl:attribute name="kind"><xsl:value-of select="@kind"/></xsl:attribute>
+					<xsl:attribute name="lang"><xsl:value-of select="@lang"/></xsl:attribute>
+					<xsl:if test="@default">
+						<xsl:attribute name="default">true</xsl:attribute>
+					</xsl:if>
+		        </track>
+			</xsl:for-each>
+		</video>
+	</xsl:template>
+
 </xsl:stylesheet>

@@ -8,16 +8,8 @@
 			content: window.find("content"),
 			wrapper: window.find(".video-wrapper"),
 		};
-		// // init Plyr object
-		// let config = {
-		// 		// enabled: false,
-		// 		controls: [],
-		// 		loadSprite: false,
-		// 		debug: true,
-		// 	};
-		// this.plyr = new Plyr(this.els.playerEl, config);
-		// // temp
-		// this.els.wrapper.css({ "--poster": `url(${this.els.pEl.data("poster")})` });
+		// init Plyr object
+		this.plyr = new Plyr(this.els.wrapper);
 	},
 	dispatch(event) {
 		let APP = ozil,
@@ -26,6 +18,9 @@
 		// console.log(event);
 		switch (event.type) {
 			// custom events
+			case "init":
+				Self.plyr.load(event.file);
+				break;
 			case "play":
 				Self.plyr.play();
 				break;

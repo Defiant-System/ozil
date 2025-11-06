@@ -34,6 +34,12 @@ const ozil = {
 				event.open({ responseType: "xml" })
 					.then(file => Self.dispatch({ type: "parse-file", file }));
 				break;
+			case "load-samples":
+				event.samples.map(async path => {
+					let file = await Self.openLocal(`~/samples/${path}`);
+					Self.player.dispatch({ type: "init", file });
+				});
+				break;
 			case "open-help":
 				karaqu.shell("fs -u '~/help/index.md'");
 				break;
@@ -60,6 +66,33 @@ const ozil = {
 					}
 				}
 		}
+	},
+	openLocal(url) {
+		let parts = url.slice(url.lastIndexOf("/") + 1),
+			[ name, kind ] = parts.split("."),
+			file = new karaqu.File({ name, kind });
+		// return promise
+		return new Promise((resolve, reject) => {
+			// fetch item and transform it to a "fake" file
+			fetch(url)
+				.then(resp => resp.blob())
+				.then(blob => {
+					// here the file as a blob
+					file.blob = blob;
+					if (blob.type === "application/xml") {
+						let reader = new FileReader();
+						reader.addEventListener("load", () => {
+							// this will then display a text file
+							file.data = $.xmlFromString(reader.result).documentElement;
+							resolve(file);
+						}, false);
+						reader.readAsText(blob);
+					} else {
+						resolve(file);
+					}
+				})
+				.catch(err => reject(err));
+		});
 	},
 	start: @import "./areas/start.js",
 	player: @import "./areas/player.js",
