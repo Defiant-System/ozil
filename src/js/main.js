@@ -1,5 +1,8 @@
 
+@import "./ext/custom.plyr.js"
+
 @import "./modules/test.js"
+
 
 
 const ozil = {
@@ -26,9 +29,19 @@ const ozil = {
 			case "window.init":
 				break;
 			// custom events
+			case "open.file":
+				// Files.open(event.path);
+				event.open({ responseType: "xml" })
+					.then(file => Self.dispatch({ type: "parse-file", file }));
+				break;
 			case "open-help":
 				karaqu.shell("fs -u '~/help/index.md'");
 				break;
+
+			case "parse-file":
+				console.log(event);
+				break;
+
 			// proxy events
 			case "set-wp":
 				Self.content.find("> .wrapper").data({ wp: event.arg });
@@ -49,6 +62,7 @@ const ozil = {
 		}
 	},
 	start: @import "./areas/start.js",
+	player: @import "./areas/player.js",
 	controls: @import "./areas/controls.js",
 };
 

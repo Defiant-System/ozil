@@ -108,8 +108,10 @@
 				value = el.hasClass("icon-play");
 				if (value) {
 					el.removeClass("icon-play").addClass("icon-pause");
+					APP.player.dispatch({ type: "play" });
 				} else {
 					el.removeClass("icon-pause").addClass("icon-play");
+					APP.player.dispatch({ type: "pause" });
 				}
 				break;
 			case "toggle-mute":
