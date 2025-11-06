@@ -32,20 +32,17 @@ const ozil = {
 			case "open.file":
 				// Files.open(event.path);
 				event.open({ responseType: "xml" })
-					.then(file => Self.dispatch({ type: "parse-file", file }));
+					.then(file => Self.player.dispatch({ type: "init", file }));
 				break;
 			case "load-samples":
 				event.samples.map(async path => {
 					let file = await Self.openLocal(`~/samples/${path}`);
-					Self.player.dispatch({ type: "init", file });
+					Self.controls.dispatch({ type: "init-file", file });
+					Self.player.dispatch({ type: "init-file", file });
 				});
 				break;
 			case "open-help":
 				karaqu.shell("fs -u '~/help/index.md'");
-				break;
-
-			case "parse-file":
-				console.log(event);
 				break;
 
 			// proxy events

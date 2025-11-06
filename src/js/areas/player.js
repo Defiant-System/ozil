@@ -18,7 +18,7 @@
 		// console.log(event);
 		switch (event.type) {
 			// custom events
-			case "init":
+			case "init-file":
 				Self.plyr.load(event.file);
 				break;
 			case "play":
@@ -26,6 +26,9 @@
 				break;
 			case "pause":
 				Self.plyr.pause();
+				break;
+			case "seek":
+				Self.plyr.currentTime = event.time;
 				break;
 		}
 	}

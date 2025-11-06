@@ -23,12 +23,23 @@
 		switch (event.type) {
 			// custom events
 			case "update-seek":
-				console.log(event);
+				APP.player.dispatch({ type: "seek", time: +event.val });
 				break;
 			case "update-volume":
 				value = event.val <= 0;
 				// volume icon
 				Self.els.iconVolume.toggleClass("icon-volume-mute", !value);
+				break;
+			case "init-file":
+				Self.els.controls.find(`.progress .played`).html(`0:00`);
+				let xDur = event.file.data.selectSingleNode(`//Meta[@id="duration"]`),
+					dur = +xDur.getAttribute("value"),
+					hours = parseInt(dur / 60 / 60, 10),
+					minutes = parseInt(dur / 60, 10),
+					seconds = String(dur % 60).padStart(2, "0");
+				if (hours > 0) `${hours}:${String(minutes).padStart(2, "0")}:${seconds}`;
+				else value = `${minutes}:${seconds}`;
+				Self.els.controls.find(`.progress .duration`).html(value);
 				break;
 			case "toggle-menu":
 				if (event.el.hasClass("active")) {
