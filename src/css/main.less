@@ -323,11 +323,11 @@ content {
 			}
 
 			&.volume {
-				.track {
+				.range {
 					position: relative;
 					height: 83px;
 					margin: 7px 0 9px;
-					--val: 0;
+					--volume: 0;
 
 					&:before,
 					&:after {
@@ -344,14 +344,14 @@ content {
 
 					&:after {
 						top: auto;
-						height: var( --val );
+						height: var( --volume );
 						background: #eee;
 					}
 
 					.knob {
 						position: absolute;
 						left: 9px;
-						top: calc( 100% - var( --val ) );
+						top: calc( 100% - var( --volume ) );
 						width: 11px;
 						height: 11px;
 						z-index: 3;
@@ -405,7 +405,8 @@ content {
 			position: relative;
 			flex: 1;
 			display: flex;
-			--val: 0;
+			--loaded: 0;
+			--played: 0;
 
 			&:hover {
 				span {
@@ -425,34 +426,46 @@ content {
 				&:last-child { text-align: left; }
 			}
 
-			.track {
+			.range {
 				position: relative;
 				flex: 1;
 				margin: 0 7px;
 
-				&:before,
-				&:after {
-					content: "";
+				.track {
 					position: absolute;
 					top: 13px;
 					left: 0;
 					right: 0;
 					height: 3px;
 					z-index: 1;
-					background: #ddd6;
+					background: #ddd3;
 					border-radius: 3px;
-				}
 
-				&:after {
-					right: auto;
-					width: var( --val );
-					background: #eee;
+					&:before,
+					&:after {
+						content: "";
+						position: absolute;
+						top: 0;
+						left: 0;
+						height: inherit;
+						border: inherit;
+					}
+
+					&:before {
+						width: var( --loaded );
+						background: #f001;
+					}
+
+					&:after {
+						width: var( --played );
+						background: #eee2;
+					}
 				}
 
 				.knob {
 					position: absolute;
 					top: 8px;
-					left: var( --val );
+					left: var( --played );
 					width: 13px;
 					height: 13px;
 					z-index: 3;

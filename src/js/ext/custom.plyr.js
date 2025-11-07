@@ -1,12 +1,6 @@
 
 class Plyr {
-	constructor(wrapper, config) {
-		this.timers = {};
-		// State
-		this.ready = false;
-		this.loading = false;
-		this.failed = false;
-
+	constructor(wrapper) {
 		// full screen support
 		this.fullscreen = new Fullscreen;
 		// Set the media element
@@ -25,27 +19,42 @@ class Plyr {
 		});
 		this.player = el[0];
 
-		this.player.addEventListener("timeupdate", e => console.log(e));
+		// get video duration
+		let xDuration = file.data.selectSingleNode(`//Meta[@id="duration"]`);
+		this.duration = +xDuration.getAttribute("value");
 
 		// set poster & "tag" parent element as initiated
 		let xPoster = file.data.selectSingleNode(`//Meta[@id="poster"]`);
 		this.wrapper
 			.css({ "--poster": `url(${xPoster.getAttribute("value")})` })
 			.addClass("initiated");
+
+		// event listeners
+		// this.player.addEventListener("progress", this.dispatch);
+		this.player.addEventListener("timeupdate", this.dispatch);
+		this.player.addEventListener("ended", this.dispatch);
+	}
+
+	get dispatch() {
+		return this._dispatch;
+	}
+
+	set dispatch(dispatch) {
+		this._dispatch = dispatch;
 	}
 
 	/**
 	 * Get playing state
 	 */
 	get playing() {
-		return Boolean(this.ready && !this.paused && !this.ended);
+		return Boolean(!this.paused && !this.ended);
 	}
 
 	/**
 	 * Get paused state
 	 */
 	get paused() {
-		return Boolean(this.media.paused);
+		return Boolean(this.player.paused);
 	}
 
 	/**
@@ -59,7 +68,7 @@ class Plyr {
 	 * Get ended state
 	 */
 	get ended() {
-		return Boolean(this.media.ended);
+		return Boolean(this.player.ended);
 	}
 
 	/**
@@ -99,17 +108,18 @@ class Plyr {
 		let inputIsValid = input == +input && input > 0;
 
 		// Set
-		this.media.currentTime = inputIsValid ? Math.min(input, this.duration) : 0;
+		this.player.currentTime = inputIsValid ? Math.min(input, this.duration) : 0;
+		// console.log(this.player.currentTime);
 
 		// Logging
-		this.debug.log(`Seeking to ${this.currentTime} seconds`);
+		// this.debug.log(`Seeking to ${this.currentTime} seconds`);
 	}
 
 	/**
 	 * Get current time
 	 */
 	get currentTime() {
-		return Number(this.media.currentTime);
+		return Number(this.player.currentTime);
 	}
 
 

@@ -7,6 +7,8 @@
 		this.els = {
 			content: window.find("content"),
 			controls: window.find(".controls"),
+			progress: window.find(`.controls .progress`),
+			played: window.find(`.controls .progress .played`),
 			iconVolume: window.find(`.controls span[data-click="toggle-menu"][data-arg="volume"] i`),
 		};
 		// bind event handlers
@@ -15,31 +17,61 @@
 	dispatch(event) {
 		let APP = ozil,
 			Self = APP.controls,
+			hours, minutes, seconds,
+			loaded,
+			duration,
 			offset,
 			value,
 			pEl,
 			el;
 		// console.log(event);
 		switch (event.type) {
+			// triggered events from video element
+			case "timeupdate":
+				duration = (event.timeStamp / 1000) | 0;
+				hours = parseInt(duration / 60 / 60, 10);
+				minutes = parseInt(duration / 60, 10);
+				seconds = String(duration % 60).padStart(2, "0");
+				if (hours > 0) `${hours}:${String(minutes).padStart(2, "0")}:${seconds}`;
+				else value = `${minutes}:${seconds}`;
+				Self.els.played.html(value);
+				// seeker knob
+				value = ((duration / APP.player.plyr.duration) * 100) | 0;
+				Self.els.progress.css({ "--played": `${value}%` });
+				break;
+			// case "progress":
+			// 	loaded = (event.timeStamp / 1000) | 0;
+			// 	value = ((loaded / APP.player.plyr.duration) * 100) | 0;
+			// 	//console.log( "loaded", value );
+			// 	Self.els.progress.css({ "--loaded": `${value}%` });
+			// 	break;
+			case "ended":
+				// rewind video
+				Self.dispatch({ type: "toggle-play" });
+				Self.dispatch({ type: "update-seek", value: 0.002 });
+				break;
 			// custom events
 			case "update-seek":
-				APP.player.dispatch({ type: "seek", time: +event.val });
+				APP.player.dispatch({ type: "seek", time: +event.value });
+				if (event.play) Self.dispatch({ type: "toggle-play" });
 				break;
 			case "update-volume":
-				value = event.val <= 0;
+				value = event.value <= 0;
 				// volume icon
 				Self.els.iconVolume.toggleClass("icon-volume-mute", !value);
 				break;
 			case "init-file":
-				Self.els.controls.find(`.progress .played`).html(`0:00`);
-				let xDur = event.file.data.selectSingleNode(`//Meta[@id="duration"]`),
-					dur = +xDur.getAttribute("value"),
-					hours = parseInt(dur / 60 / 60, 10),
-					minutes = parseInt(dur / 60, 10),
-					seconds = String(dur % 60).padStart(2, "0");
+				Self.els.played.html(`0:00`);
+				let xDur = event.file.data.selectSingleNode(`//Meta[@id="duration"]`);
+				duration = +xDur.getAttribute("value");
+				hours = parseInt(duration / 60 / 60, 10);
+				minutes = parseInt(duration / 60, 10);
+				seconds = String(duration % 60).padStart(2, "0");
 				if (hours > 0) `${hours}:${String(minutes).padStart(2, "0")}:${seconds}`;
 				else value = `${minutes}:${seconds}`;
-				Self.els.controls.find(`.progress .duration`).html(value);
+				Self.els.progress.find(`.duration`).html(value);
+				// add as css value
+				Self.els.progress.css({ "--dur": duration });
 				break;
 			case "toggle-menu":
 				if (event.el.hasClass("active")) {
@@ -115,7 +147,7 @@
 					});
 				break;
 			case "toggle-play":
-				el = event.el.find("i");
+				el = event.el ? event.el.find("i") : Self.els.controls.find(`span[data-click="toggle-play"] i`);
 				value = el.hasClass("icon-play");
 				if (value) {
 					el.removeClass("icon-play").addClass("icon-pause");
@@ -127,15 +159,15 @@
 				break;
 			case "toggle-mute":
 				el = Self.els.iconVolume;
-				pEl = Self.els.controls.find(`.track[data-change="update-volume"]`);
+				pEl = Self.els.controls.find(`.range[data-change="update-volume"]`);
 
 				if (el.hasClass("icon-volume-mute")) {
 					value = +pEl.data("val");
 				} else {
-					pEl.data({ val: parseInt(pEl.cssProp("--val"), 10) });
+					pEl.data({ val: parseInt(pEl.cssProp("--volume"), 10) });
 					value = 0;
 				}
-				pEl.css({ "--val": `${value}%` });
+				pEl.css({ "--volume": `${value}%` });
 
 				Self.dispatch({ type: "update-volume", val: value });
 				// Self.dispatch({ type: "menu-close" });
@@ -162,16 +194,16 @@
 				event.preventDefault();
 
 				let el = $(event.target),
-					pEl = el.parent().data("track"),
+					pEl = el.parent().data("range"),
 					oX = event.offsetX;
 				switch (true) {
 					case el.hasClass("knob") && pEl === "seek":
 						oX += +el.prop("offsetLeft");
 						el = el.parent();
 						break;
-					case el.data("track") === "seek": break;
+					case el.data("range") === "seek": break;
 					case el.hasClass("knob") && pEl === "volume": return Self.doVolume(event);
-					case el.data("track") === "volume": return Self.doVolume(event);
+					case el.data("range") === "volume": return Self.doVolume(event);
 					default: return;
 				}
 
@@ -202,15 +234,15 @@
 				let left = Math.max(Math.min(event.clientX - Drag.clickX, Drag.max), Drag.min),
 					proc = left / (Drag.max - Drag.min);
 				// Drag.knob.css({ left });
-				// update --val
-				Drag.pEl.css({ "--val": `${(proc * 100) | 0}%` });
+				// update --played
+				Drag.pEl.css({ "--played": `${(proc * 100) | 0}%` });
 				// played time update
-				let val = (Drag.dur * proc) | 0,
-					minutes = parseInt(val/60),
-					seconds = parseInt(val%60).toString().padStart(2, "0");
+				let value = (Drag.dur * proc) | 0,
+					minutes = parseInt(value/60),
+					seconds = parseInt(value%60).toString().padStart(2, "0");
 				Drag.played.html(`${minutes}:${seconds}`);
 				// dispatch event
-				Self.dispatch({ type: Drag.type, val });
+				Self.dispatch({ type: Drag.type, value });
 				break;
 			case "mouseup":
 				// unhide cursor
@@ -258,12 +290,12 @@
 			case "mousemove":
 				let top = Math.max(Math.min(event.clientY - Drag.clickY, Drag.max), Drag.min),
 					proc = 1 - (top / (Drag.max - Drag.min)),
-					val = (proc * 100) | 0;
+					value = (proc * 100) | 0;
 				// Drag.knob.css({ top });
 				// update --val
-				Drag.el.css({ "--val": `${val}%` });
+				Drag.el.css({ "--volume": `${value}%` });
 				// dispatch event
-				Self.dispatch({ type: Drag.type, val });
+				Self.dispatch({ type: Drag.type, value });
 				break;
 			case "mouseup":
 				// unhide cursor

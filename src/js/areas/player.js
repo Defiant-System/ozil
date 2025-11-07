@@ -19,6 +19,9 @@
 		switch (event.type) {
 			// custom events
 			case "init-file":
+				// make sure player dispatch / event handler
+				Self.plyr.dispatch = APP.controls.dispatch;
+				// load file
 				Self.plyr.load(event.file);
 				break;
 			case "play":

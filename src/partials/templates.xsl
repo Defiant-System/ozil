@@ -3,9 +3,10 @@
 	<xsl:template name="controls-volume-menu">
 		<div class="ctrl-menu volume">
 			<div class="menu-wrapper">
-				<div class="track" data-track="volume">
+				<div class="range" data-range="volume">
 					<xsl:attribute name="data-change"><xsl:value-of select="//Menu[@for='volume']/Menu[@type='slider']/@change"/></xsl:attribute>
-					<xsl:attribute name="style">--val: <xsl:value-of select="//Menu[@for='volume']/Menu[@type='slider']/@value"/>%;</xsl:attribute>
+					<xsl:attribute name="style">--volume: <xsl:value-of select="//Menu[@for='volume']/Menu[@type='slider']/@value"/>%;</xsl:attribute>
+					<span class="track"></span>
 					<span class="knob"></span>
 				</div>
 				<span data-click="toggle-mute">

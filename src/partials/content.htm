@@ -5,12 +5,13 @@
 	<div class="controls" data-area="controls">
 		<div class="wrapper">
 			<span data-click="toggle-play"><i class="icon-play"></i></span>
-			<div class="progress" style="--val: 0%; --dur: 0;" data-change="update-seek">
-				<span class="played">0:00</span>
-				<div class="track" data-track="seek">
+			<div class="progress" style="--loaded: 0%; --played: 0%; --duration: 0;" data-change="update-seek">
+				<span class="played"><!-- 0:00 --></span>
+				<div class="range" data-range="seek">
+					<span class="track"></span>
 					<span class="knob"></span>
 				</div>
-				<span class="duration">0:00</span>
+				<span class="duration"><!-- 0:00 --></span>
 			</div>
 			<span data-click="toggle-menu" data-arg="volume">
 				<i class="icon-volume"></i>
