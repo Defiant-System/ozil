@@ -28,7 +28,10 @@
 		switch (event.type) {
 			// triggered events from video element
 			case "timeupdate":
-				duration = (event.timeStamp / 1000) | 0;
+				// if progress "drag'n drop", exit
+				if (Self.els.content.hasClass("hide-cursor")) return;
+				// calculations
+				duration = APP.player.plyr.currentTime | 0;
 				hours = parseInt(duration / 60 / 60, 10);
 				minutes = parseInt(duration / 60, 10);
 				seconds = String(duration % 60).padStart(2, "0");
@@ -146,15 +149,25 @@
 						el.remove();
 					});
 				break;
+			case "play-rewind":
+			case "play-forward":
+				value = APP.player.plyr.currentTime + +event.arg;
+				// dispatch event
+				Self.dispatch({ type: "update-seek", value });
+				break;
 			case "toggle-play":
 				el = event.el ? event.el.find("i") : Self.els.controls.find(`span[data-click="toggle-play"] i`);
 				value = el.hasClass("icon-play");
 				if (value) {
 					el.removeClass("icon-play").addClass("icon-pause");
 					APP.player.dispatch({ type: "play" });
+					// update root class name
+					Self.els.content.removeClass("playback-paused");
 				} else {
 					el.removeClass("icon-pause").addClass("icon-play");
 					APP.player.dispatch({ type: "pause" });
+					// update root class name
+					Self.els.content.addClass("playback-paused");
 				}
 				break;
 			case "toggle-mute":
@@ -237,14 +250,14 @@
 				// update --played
 				Drag.pEl.css({ "--played": `${(proc * 100) | 0}%` });
 				// played time update
-				let value = (Drag.dur * proc) | 0,
-					minutes = parseInt(value/60),
-					seconds = parseInt(value%60).toString().padStart(2, "0");
+				Drag.value = (Drag.dur * proc) | 0;
+				let minutes = parseInt(Drag.value/60),
+					seconds = parseInt(Drag.value%60).toString().padStart(2, "0");
 				Drag.played.html(`${minutes}:${seconds}`);
-				// dispatch event
-				Self.dispatch({ type: Drag.type, value });
 				break;
 			case "mouseup":
+				// dispatch event
+				Self.dispatch({ type: Drag.type, value: Drag.value });
 				// unhide cursor
 				Self.els.content.removeClass("hide-cursor");
 				// unbind event handlers

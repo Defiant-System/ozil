@@ -44,6 +44,19 @@ content {
 			}
 		}
 	}
+
+	&.playback-paused {
+		.controls {
+			.wrapper {
+				span {
+					&[data-click="play-rewind"],
+					&[data-click="play-forward"] {
+						display: block;
+					}
+				}
+			}
+		}
+	}
 	
 	[class*="icon-"],
 	[class^="icon-"] {
@@ -187,6 +200,25 @@ content {
 
 			&:nth-child(1) {
 				margin-left: 0;
+			}
+
+			&[data-click="toggle-play"] {
+
+			}
+
+			&[data-click="play-rewind"],
+			&[data-click="play-forward"] {
+				display: none;
+
+				&:after {
+					content: "15";
+					position: absolute;
+					top: 12px;
+					left: 0;
+					right: 0;
+					text-align: center;
+					font-size: 7px;
+				}
 			}
 
 			&[data-arg="settings"] {
