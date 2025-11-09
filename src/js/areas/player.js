@@ -33,6 +33,9 @@
 			case "seek":
 				Self.plyr.currentTime = event.time;
 				break;
+			case "set-volume":
+				Self.plyr.volume = event.value;
+				break;
 		}
 	}
 }

@@ -79,40 +79,18 @@ class Plyr {
 	};
 
 	/**
-	 * Rewind
-	 * @param {number} seekTime - how far to rewind in seconds. Defaults to the config.seekTime
-	 */
-	rewind = (seekTime) => {
-		this.currentTime -= seekTime == +seekTime ? seekTime : this.config.seekTime;
-	};
-
-	/**
-	 * Fast forward
-	 * @param {number} seekTime - how far to fast forward in seconds. Defaults to the config.seekTime
-	 */
-	forward = (seekTime) => {
-		this.currentTime += seekTime == +seekTime ? seekTime : this.config.seekTime;
-	};
-
-	/**
 	 * Seek to a time
 	 * @param {number} input - where to seek to in seconds. Defaults to 0 (the start)
 	 */
 	set currentTime(input) {
 		// Bail if media duration isn't available yet
-		if (!this.duration) {
-			return;
-		}
+		if (!this.duration) return;
 
 		// Validate input
 		let inputIsValid = input == +input && input > 0;
 
 		// Set
 		this.player.currentTime = inputIsValid ? Math.min(input, this.duration) : 0;
-		// console.log(this.player.currentTime);
-
-		// Logging
-		// this.debug.log(`Seeking to ${this.currentTime} seconds`);
 	}
 
 	/**
@@ -122,6 +100,30 @@ class Plyr {
 		return Number(this.player.currentTime);
 	}
 
+	/**
+	 * Set the player volume
+	 * @param {number} value - must be between 0 and 1. Defaults to the value from local storage and config.volume if not set in storage
+	 */
+	set volume(value) {
+		let volume = Number(value);
+		let max = 1;
+		let min = 0;
+
+		// Maximum is volumeMax
+		if (volume > max) volume = max;
+		// Minimum is volumeMin
+		if (volume < min) volume = min;
+
+		// Set the player volume
+		this.player.volume = volume;
+	}
+
+	/**
+	 * Get the current player volume
+	 */
+	get volume() {
+		return Number(this.player.volume);
+	}
 
 	play() {
 		// reset wrapper element
@@ -134,31 +136,7 @@ class Plyr {
 		return this.player.pause();
 	}
 
-	togglePlay(toggle) {
-
-	}
-
-	stop() {
-
-	}
-
 	restart() {
-
-	}
-
-	rewind(seekTime) {
-
-	}
-
-	forward(seekTime) {
-
-	}
-
-	increaseVolume(step) {
-
-	}
-
-	decreaseVolume(step) {
 
 	}
 
@@ -175,22 +153,6 @@ class Plyr {
 	}
 
 	toggleControls(toggle) {
-
-	}
-
-	// on(event, function) {
-
-	// }
-
-	// once(event, function) {
-
-	// }
-
-	// off(event, function) {
-
-	// }
-
-	supports(type) {
 
 	}
 

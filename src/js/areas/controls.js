@@ -59,9 +59,8 @@
 				if (event.play) Self.dispatch({ type: "toggle-play" });
 				break;
 			case "update-volume":
-				value = event.value <= 0;
-				// volume icon
-				Self.els.iconVolume.toggleClass("icon-volume-mute", !value);
+				// update player volume
+				APP.player.dispatch({ type: "set-volume", value: event.value });
 				break;
 			case "init-file":
 				Self.els.played.html(`0:00`);
@@ -175,14 +174,19 @@
 				pEl = Self.els.controls.find(`.range[data-change="update-volume"]`);
 
 				if (el.hasClass("icon-volume-mute")) {
-					value = +pEl.data("val");
+					// volume icon
+					el.removeClass("icon-volume-mute");
+					value = parseInt(pEl.data("val"), 10);
 				} else {
-					pEl.data({ val: parseInt(pEl.cssProp("--volume"), 10) });
+					// volume icon
+					el.addClass("icon-volume-mute");
+					pEl.data({ val: pEl.cssProp("--volume") });
 					value = 0;
 				}
 				pEl.css({ "--volume": `${value}%` });
 
-				Self.dispatch({ type: "update-volume", val: value });
+				// forward event
+				Self.dispatch({ type: "update-volume", value: value / 100 });
 				// Self.dispatch({ type: "menu-close" });
 				break;
 			case "set-subtitle":
@@ -304,11 +308,10 @@
 				let top = Math.max(Math.min(event.clientY - Drag.clickY, Drag.max), Drag.min),
 					proc = 1 - (top / (Drag.max - Drag.min)),
 					value = (proc * 100) | 0;
-				// Drag.knob.css({ top });
 				// update --val
 				Drag.el.css({ "--volume": `${value}%` });
 				// dispatch event
-				Self.dispatch({ type: Drag.type, value });
+				Self.dispatch({ type: Drag.type, value: proc });
 				break;
 			case "mouseup":
 				// unhide cursor
