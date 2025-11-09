@@ -1,6 +1,6 @@
 
 // applies to 'WindowBody': START;
-background: #000a;
+background: #000e;
 backdrop-filter: blur(7px);
 
 content {
@@ -10,6 +10,9 @@ content {
 	right: 0;
 	bottom: 0;
 	border-radius: inherit;
+	font-family: Gordita;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
 
 	&[data-click="menu-close"] {
 		&:before {
@@ -144,6 +147,26 @@ content {
 		}
 	}
 
+	.subtitles {
+		position: absolute;
+		left: 0;
+		bottom: 11px;
+		z-index: 3;
+		width: 100%;
+		font-size: 18px;
+		text-align: center;
+
+		> span {
+			background: #0007;
+			border-radius: 3px;
+			box-decoration-break: clone;
+			color: #fff;
+			line-height: 185%;
+			padding: 4px 9px 3px;
+			white-space: pre-wrap;
+		}
+	}
+
 	&.hover,
 	&:hover {
 		.controls {
@@ -163,7 +186,7 @@ content {
 		width: 580px;
 		height: 51px;
 		opacity: 0;
-		z-index: 3;
+		z-index: 4;
 		margin-left: -290px;
 		color: #eee;
 		text-shadow: 0 1px 0 #0002;
@@ -450,8 +473,8 @@ content {
 			> span {
 				position: relative;
 				width: 31px;
-				padding: 10px 2px 0;
-				font-size: 11px;
+				padding: 9px 2px 0;
+				font-size: 10px;
 				opacity: .6;
 				transition: opacity 80ms ease-in-out;
 
@@ -511,4 +534,13 @@ content {
 			}
 		}
 	}
+}
+
+// custom fonts
+@font-face {
+	font-family: Gordita;
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url(~/fonts/gordita-medium.woff2) format("woff2");
 }
