@@ -30,7 +30,8 @@ class Plyr {
 			.addClass("initiated");
 
 		// event listeners
-		// this.player.addEventListener("progress", this.dispatch);
+		// this.player.addEventListener("loadeddata", e => console.log(e));
+		this.player.addEventListener("progress", this.dispatch);
 		this.player.addEventListener("timeupdate", this.dispatch);
 		this.player.addEventListener("ended", this.dispatch);
 	}
@@ -69,6 +70,10 @@ class Plyr {
 	 */
 	get ended() {
 		return Boolean(this.player.ended);
+	}
+
+	get buffered() {
+		return this.player.buffered;
 	}
 
 	/**

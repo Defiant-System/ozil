@@ -18,7 +18,7 @@
 		let APP = ozil,
 			Self = APP.controls,
 			hours, minutes, seconds,
-			loaded,
+			buffered,
 			duration,
 			offset,
 			value,
@@ -42,12 +42,14 @@
 				value = ((duration / APP.player.plyr.duration) * 100) | 0;
 				Self.els.progress.css({ "--played": `${value}%` });
 				break;
-			// case "progress":
-			// 	loaded = (event.timeStamp / 1000) | 0;
-			// 	value = ((loaded / APP.player.plyr.duration) * 100) | 0;
-			// 	//console.log( "loaded", value );
-			// 	Self.els.progress.css({ "--loaded": `${value}%` });
-			// 	break;
+			case "progress":
+				buffered = APP.player.plyr.buffered;
+				for (let i=0; i<buffered.length; i++) {
+					value = buffered.end(i);
+				}
+				value = ((value / APP.player.plyr.duration) * 100) | 0;
+				Self.els.progress.css({ "--loaded": `${value}%` });
+				break;
 			case "ended":
 				// rewind video
 				Self.dispatch({ type: "toggle-play" });
