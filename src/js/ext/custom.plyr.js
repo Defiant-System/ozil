@@ -19,6 +19,17 @@ class Plyr {
 		});
 		this.player = el[0];
 
+		for (const track of this.player.textTracks) {
+			track.mode = "hidden";
+
+			track.addEventListener("cuechange", e => {
+				console.log(e);
+				let cues = (Array.from(e.target.activeCues) || [])
+								.map(cue => cue.text).join("");
+				// console.log(cues);
+			});
+		}
+
 		// get video duration
 		let xDuration = file.data.selectSingleNode(`//Meta[@id="duration"]`);
 		this.duration = +xDuration.getAttribute("value");
@@ -30,7 +41,7 @@ class Plyr {
 			.addClass("initiated");
 
 		// event listeners
-		// this.player.addEventListener("loadeddata", e => console.log(e));
+		// this.player.addEventListener("cuechange", e => console.log(e));
 		this.player.addEventListener("progress", this.dispatch);
 		this.player.addEventListener("timeupdate", this.dispatch);
 		this.player.addEventListener("ended", this.dispatch);

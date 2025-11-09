@@ -2,8 +2,8 @@
 <Media>
 	<Meta id="duration" value="186"/>
 	<Meta id="poster" value="/cdn/video/View_From_A_Blue_Moon_Trailer-HD.jpg"/>
-	<Meta id="track" value="/cdn/video/View_From_A_Blue_Moon_Trailer-HD.en.vtt" kind="captions" lang="en" default1="true"/>
-	<Meta id="track" value="/cdn/video/View_From_A_Blue_Moon_Trailer-HD.fr.vtt" kind="captions" lang="fr"/>
+	<Meta id="track" value="/cdn/video/View_From_A_Blue_Moon_Trailer-HD.en.vtt" kind="captions" lang="en" label="English" default="true"/>
+	<Meta id="track" value="/cdn/video/View_From_A_Blue_Moon_Trailer-HD.fr.vtt" kind="captions" lang="fr" label="Français"/>
 	<Meta id="source" value="/cdn/video/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576"/>
 	<Meta id="source" value="/cdn/video/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720"/>
 	<Meta id="source" value="/cdn/video/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4" size="1080"/>
