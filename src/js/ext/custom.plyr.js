@@ -22,12 +22,16 @@ class Plyr {
 		for (const track of this.player.textTracks) {
 			track.mode = "hidden";
 
-			track.addEventListener("cuechange", e => {
-				console.log(e);
-				let cues = (Array.from(e.target.activeCues) || [])
-								.map(cue => cue.text).join("");
-				// console.log(cues);
-			});
+			// let isChecked = ` is-checked="1"`,
+			// 	xMenu = $.nodeFromStr(`<Menu name="${track.label}" click="set-subtitle" arg="${track.language}" check-group="playback-subtitle" ${isChecked}/>`);
+			console.log(track);
+
+			// track.addEventListener("cuechange", e => {
+			// 	console.log(e);
+			// 	let cues = (Array.from(e.target.activeCues) || [])
+			// 					.map(cue => cue.text).join("");
+			// 	// console.log(cues);
+			// });
 		}
 
 		// get video duration
@@ -41,7 +45,6 @@ class Plyr {
 			.addClass("initiated");
 
 		// event listeners
-		// this.player.addEventListener("cuechange", e => console.log(e));
 		this.player.addEventListener("progress", this.dispatch);
 		this.player.addEventListener("timeupdate", this.dispatch);
 		this.player.addEventListener("ended", this.dispatch);

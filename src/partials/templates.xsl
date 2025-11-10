@@ -92,9 +92,6 @@
 					<xsl:attribute name="kind"><xsl:value-of select="@kind"/></xsl:attribute>
 					<xsl:attribute name="label"><xsl:value-of select="@label"/></xsl:attribute>
 					<xsl:attribute name="srclang"><xsl:value-of select="@lang"/></xsl:attribute>
-					<xsl:if test="@default">
-						<xsl:attribute name="default">true</xsl:attribute>
-					</xsl:if>
 		        </track>
 			</xsl:for-each>
 		</video>

@@ -4,6 +4,11 @@
 @import "./modules/test.js"
 
 
+// default settings
+const defaultSettings = {
+	"language": "se",
+};
+
 
 const ozil = {
 	init() {
@@ -14,6 +19,9 @@ const ozil = {
 		Object.keys(this)
 			.filter(i => typeof this[i].init === "function")
 			.map(i => this[i].init(this));
+
+		// init settings
+		this.dispatch({ type: "init-settings" });
 
 		// DEV-ONLY-START
 		Test.init(this);
@@ -43,6 +51,10 @@ const ozil = {
 				break;
 			case "open-help":
 				karaqu.shell("fs -u '~/help/index.md'");
+				break;
+			case "init-settings":
+				// get settings, if any
+				Self.settings = window.settings.getItem("settings") || defaultSettings;
 				break;
 
 			// proxy events

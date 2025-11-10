@@ -136,6 +136,10 @@ content {
 				display: block;
 			}
 
+			& + .subtitles {
+				transform: translateY(-80px);
+			}
+
 			& + .controls {
 				opacity: 1;
 				bottom: 29px;
@@ -155,6 +159,8 @@ content {
 		width: 100%;
 		font-size: 18px;
 		text-align: center;
+		transform: translateY(0px);
+		transition: transform 120ms ease-in-out; 
 
 		> span {
 			background: #0007;
@@ -169,6 +175,10 @@ content {
 
 	&.hover,
 	&:hover {
+		.subtitles {
+			transform: translateY(-80px);
+		}
+
 		.controls {
 			opacity: 1;
 			bottom: 29px;
