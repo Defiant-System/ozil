@@ -19,19 +19,16 @@ class Plyr {
 		});
 		this.player = el[0];
 
+		// emit event to add track to menu
+		this.dispatch({ type: "reset-language-options" });
+		// subtitles
 		for (const track of this.player.textTracks) {
+			// diabled "native" subtitles
 			track.mode = "hidden";
-
-			// let isChecked = ` is-checked="1"`,
-			// 	xMenu = $.nodeFromStr(`<Menu name="${track.label}" click="set-subtitle" arg="${track.language}" check-group="playback-subtitle" ${isChecked}/>`);
-			console.log(track);
-
-			// track.addEventListener("cuechange", e => {
-			// 	console.log(e);
-			// 	let cues = (Array.from(e.target.activeCues) || [])
-			// 					.map(cue => cue.text).join("");
-			// 	// console.log(cues);
-			// });
+			// event listeners for subtitles
+			track.addEventListener("cuechange", this.dispatch);
+			// emit event to add track to menu
+			this.dispatch({ type: "add-language-option", track });
 		}
 
 		// get video duration

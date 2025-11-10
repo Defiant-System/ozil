@@ -10,6 +10,7 @@
 			progress: window.find(`.controls .progress`),
 			played: window.find(`.controls .progress .played`),
 			iconVolume: window.find(`.controls span[data-click="toggle-menu"][data-arg="volume"] i`),
+			subtitles: window.find(".subtitles span"),
 		};
 		// bind event handlers
 		this.els.controls.bind("mousedown", this.doSeek);
@@ -55,7 +56,29 @@
 				Self.dispatch({ type: "toggle-play" });
 				Self.dispatch({ type: "update-seek", value: 0.002 });
 				break;
+			case "cuechange":
+				if (event.target.language !== APP.settings.language) return;
+				// insert subtitles
+				value = (Array.from(event.target.activeCues) || []).map(cue => cue.text).join("");
+				Self.els.subtitles.html(value);
+				break;
 			// custom events
+			case "reset-language-options":
+				// clear "old" options
+				window.bluePrint.selectNodes(`//Menu[@check-group="playback-subtitle"][@arg!='none']`)
+					.map(xMenu => xMenu.parentNode.removeChild(xMenu));
+				break;
+			case "add-language-option":
+				// let xMenu = $.nodeFromString(`<Menu name="${event.track.label}" click="set-subtitle" arg="${event.track.language}" check-group="playback-subtitle"/>`);
+				// console.log(xMenu);
+				window.menuBar.add({
+					"parent": `//Menu[@check-group="playback-subtitle"][@arg="none"]/..`,
+					"name": event.track.label,
+					"arg": event.track.language,
+					"click": "set-subtitle",
+					"check-group": "playback-subtitle",
+				});
+				break;
 			case "update-seek":
 				APP.player.dispatch({ type: "seek", time: +event.value });
 				if (event.play) Self.dispatch({ type: "toggle-play" });

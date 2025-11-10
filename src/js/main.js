@@ -6,7 +6,7 @@
 
 // default settings
 const defaultSettings = {
-	"language": "se",
+	"language": "en",
 };
 
 
