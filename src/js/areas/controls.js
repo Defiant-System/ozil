@@ -293,19 +293,24 @@
 					knob = el.find(".knob"),
 					dur = +el.cssProp("--dur"),
 					clickX = event.clientX,
+					rect = Self.els.progress.find(".range").offset("body"),
+					jump = clickX - rect.left,
 					max = +el.prop("offsetWidth"),
 					min = 0,
 					type = el.parent().data("change");
 
 				pEl = el.parent();
 				// knob.css({ left: oX +"px" });
-				clickX -= +knob.prop("offsetLeft") + 7;
+				// clickX -= +knob.prop("offsetLeft") + 7;
 
 				// drag start info
 				Self.drag = { doc, el, pEl, played, type, knob, dur, max, min, clickX };
 
 				// trigger fake "mousemove"
-				Self.doSeek({ type: "mousemove", clientX: event.clientX });
+				Self.doSeek({ type: "mousemove", clientX: event.clientX + jump });
+
+				Self.drag.clickX -= jump;
+
 				// hides cursor
 				Self.els.content.addClass("hide-cursor");
 				// bind event handlers
