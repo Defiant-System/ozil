@@ -22,7 +22,7 @@ class Plyr {
 		// emit event to add track to menu
 		this.dispatch({ type: "reset-language-options" });
 		// subtitles
-		for (const track of this.player.textTracks) {
+		for (let track of this.player.textTracks) {
 			// diabled "native" subtitles
 			track.mode = "hidden";
 			// event listeners for subtitles
@@ -30,6 +30,8 @@ class Plyr {
 			// emit event to add track to menu
 			this.dispatch({ type: "add-language-option", track });
 		}
+		// emit event to add track to menu
+		this.dispatch({ type: "select-language-option" });
 
 		// get video duration
 		let xDuration = file.data.selectSingleNode(`//Meta[@id="duration"]`);

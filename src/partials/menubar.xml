@@ -6,7 +6,7 @@
 			<Menu name="Captions" icon="icon-cc">
 				<Menu name="Disabled" click="set-subtitle" check-group="playback-subtitle" arg="none"/>
 				<Menu type="divider"/>
-				<Menu name="Swedish" click="set-subtitle" check-group="playback-subtitle" arg="se"/>
+				<!-- <Menu name="Swedish" click="set-subtitle" check-group="playback-subtitle" arg="se"/> -->
 			</Menu>
 			<Menu name="Speed" icon="icon-speed">
 				<Menu name="0.5x" click="set-speed" check-group="playback-speed" arg="0.5"/>

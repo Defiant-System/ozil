@@ -63,6 +63,11 @@ const ozil = {
 				break;
 			case "update-volume":
 			case "menu-close":
+			case "set-subtitle":
+			case "set-speed":
+			case "set-quailty":
+			case "toggle-pip":
+			case "toggle-fullsceen":
 				return Self.controls.dispatch(event);
 			default:
 				el = event.el;

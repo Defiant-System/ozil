@@ -19,6 +19,7 @@
 		let APP = ozil,
 			Self = APP.controls,
 			hours, minutes, seconds,
+			xMenu,
 			buffered,
 			duration,
 			offset,
@@ -67,10 +68,16 @@
 				// clear "old" options
 				window.bluePrint.selectNodes(`//Menu[@check-group="playback-subtitle"][@arg!='none']`)
 					.map(xMenu => xMenu.parentNode.removeChild(xMenu));
+				// remove "is-checked", if any
+				xMenu = window.bluePrint.selectSingleNode(`//Menu[@check-group="playback-subtitle"][@is-checked='1']`);
+				if (xMenu) xMenu.removeAttribute("is-checked");
+				break;
+			case "select-language-option":
+				// set active language "is-checked", if any
+				xMenu = window.bluePrint.selectSingleNode(`//Menu[@check-group="playback-subtitle"][@arg='${APP.settings.language}']`);
+				if (xMenu) xMenu.setAttribute("is-checked", "1");
 				break;
 			case "add-language-option":
-				// let xMenu = $.nodeFromString(`<Menu name="${event.track.label}" click="set-subtitle" arg="${event.track.language}" check-group="playback-subtitle"/>`);
-				// console.log(xMenu);
 				window.menuBar.add({
 					"parent": `//Menu[@check-group="playback-subtitle"][@arg="none"]/..`,
 					"name": event.track.label,
@@ -215,6 +222,19 @@
 				// Self.dispatch({ type: "menu-close" });
 				break;
 			case "set-subtitle":
+				// update app settings
+				APP.settings.language = event.arg;
+				// menu logic - if event origins from controls menu
+				if (!event.xMenu) {
+					// remove "is-checked", if any
+					xMenu = window.bluePrint.selectSingleNode(`//Menu[@check-group="playback-subtitle"][@is-checked='1']`);
+					if (xMenu) xMenu.removeAttribute("is-checked");
+					// update menu
+					Self.dispatch({ type: "select-language-option" });
+				}
+				// close controls menu
+				Self.dispatch({ type: "menu-close" });
+				break;
 			case "set-speed":
 			case "set-quailty":
 			case "toggle-pip":

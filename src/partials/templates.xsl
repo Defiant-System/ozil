@@ -61,6 +61,9 @@
 					<xsl:if test="count(./*) = 0">
 						<xsl:attribute name="data-click"><xsl:value-of select="@click"/></xsl:attribute>
 					</xsl:if>
+					<xsl:if test="@arg">
+						<xsl:attribute name="data-arg"><xsl:value-of select="@arg"/></xsl:attribute>
+					</xsl:if>
 					<i><xsl:attribute name="class">
 						<xsl:choose>
 							<xsl:when test="@is-checked='1'">icon-radio-checked</xsl:when>
