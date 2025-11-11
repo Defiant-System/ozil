@@ -168,8 +168,14 @@ content {
 			box-decoration-break: clone;
 			color: #fff;
 			line-height: 185%;
-			padding: 4px 9px 3px;
+			padding: 4px 9px 5px;
 			white-space: pre-wrap;
+			opacity: 0;
+			transition: opacity 80ms ease-in-out;
+
+			&.show {
+				opacity: 1;
+			}
 		}
 	}
 

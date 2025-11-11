@@ -85,6 +85,24 @@ class Plyr {
 		return Boolean(this.player.ended);
 	}
 
+	/**
+	 * Set playback speed
+	 * @param {number} input - the speed of playback (0.5-2.0)
+	 */
+	set speed(input) {
+		// Set media speed
+		setTimeout(() => {
+			if (this.player) this.player.playbackRate = input;
+		}, 0);
+	}
+
+	/**
+	 * Get current playback speed
+	 */
+	get speed() {
+		return Number(this.player.playbackRate);
+	}
+
 	get buffered() {
 		return this.player.buffered;
 	}

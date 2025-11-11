@@ -61,9 +61,18 @@
 				if (event.target.language !== APP.settings.language) return;
 				// insert subtitles
 				value = (Array.from(event.target.activeCues) || []).map(cue => cue.text).join("");
-				Self.els.subtitles.html(value);
+				Self.els.subtitles.html(value).toggleClass("show", value === "");
 				break;
 			// custom events
+			case "set-speed-option":
+			case "reset-speed-option":
+				// remove "is-checked", if any
+				xMenu = window.bluePrint.selectSingleNode(`//Menu[@check-group="playback-speed"][@is-checked='1']`);
+				if (xMenu) xMenu.removeAttribute("is-checked");
+				// set normal speed as default
+				xMenu = window.bluePrint.selectSingleNode(`//Menu[@check-group="playback-speed"][@arg='${event.arg || 1}']`);
+				if (xMenu) xMenu.setAttribute("is-checked", "1");
+				break;
 			case "reset-language-options":
 				// clear "old" options
 				window.bluePrint.selectNodes(`//Menu[@check-group="playback-subtitle"][@arg!='none']`)
@@ -236,6 +245,16 @@
 				Self.dispatch({ type: "menu-close" });
 				break;
 			case "set-speed":
+				// menu logic - if event origins from controls menu
+				if (!event.xMenu) {
+					// update menu
+					Self.dispatch({ type: "set-speed-option", arg: event.arg });
+				}
+				// update player object
+				APP.player.plyr.speed = event.arg;
+				// close controls menu
+				Self.dispatch({ type: "menu-close" });
+				break;
 			case "set-quailty":
 			case "toggle-pip":
 			case "toggle-fullsceen":
