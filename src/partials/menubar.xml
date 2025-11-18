@@ -18,10 +18,8 @@
 				<Menu name="2x" click="set-speed" check-group="playback-speed" arg="2"/>
 				<Menu name="4x" click="set-speed" check-group="playback-speed" arg="4"/>
 			</Menu>
-			<Menu name="Quality" icon="icon-quality">
-				<Menu name="1080p" click="set-quailty" check-group="playback-quality" arg="1080"/>
-				<Menu name="720p" click="set-quailty" check-group="playback-quality" is-checked="1" arg="720"/>
-				<Menu name="576p" click="set-quailty" check-group="playback-quality" arg="576"/>
+			<Menu name="Quality" icon="icon-quality" for="playback-quality">
+				<!-- <Menu name="576p" click="set-quailty" check-group="playback-quality" arg="576"/> -->
 			</Menu>
 			<Menu type="divider"/>
 			<Menu name="Picture in Picture" icon="icon-pip" click="toggle-pip"/>

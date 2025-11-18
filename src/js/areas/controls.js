@@ -64,6 +64,27 @@
 				Self.els.subtitles.html(value).toggleClass("show", value === "");
 				break;
 			// custom events
+			case "add-quality-options":
+				event.sources.map(opt => {
+					window.menuBar.add({
+						"parent": `//Menu[@for="playback-quality"]`,
+						"name": opt.size,
+						"arg": JSON.stringify(opt),
+						"click": "set-quality",
+						"check-group": "playback-quality",
+					});
+				});
+				// auto select first quality entry
+				Self.dispatch({ type: "set-quality-option", arg: JSON.stringify(event.sources[0]) });
+				break;
+			case "set-quality-option":
+				// remove "is-checked", if any
+				xMenu = window.bluePrint.selectSingleNode(`//Menu[@check-group="playback-quality"][@is-checked='1']`);
+				if (xMenu) xMenu.removeAttribute("is-checked");
+				// set active quality "is-checked", if any
+				xMenu = window.bluePrint.selectSingleNode(`//Menu[@check-group="playback-quality"][@arg='${event.arg}']`);
+				if (xMenu) xMenu.setAttribute("is-checked", "1");
+				break;
 			case "set-speed-option":
 			case "reset-speed-option":
 				// remove "is-checked", if any
@@ -255,7 +276,18 @@
 				// close controls menu
 				Self.dispatch({ type: "menu-close" });
 				break;
-			case "set-quailty":
+			case "set-quality":
+				// menu logic - if event origins from controls menu
+				if (!event.xMenu) {
+					// update menu
+					Self.dispatch({ type: "set-quality-option", arg: event.arg });
+				}
+				value = JSON.parse(event.arg);
+				// update player source data
+				APP.player.plyr.source = value;
+				// close controls menu
+				Self.dispatch({ type: "menu-close" });
+				break;
 			case "toggle-pip":
 			case "toggle-fullsceen":
 				Self.dispatch({ type: "menu-close" });

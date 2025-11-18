@@ -19,6 +19,18 @@ class Plyr {
 		});
 		this.player = el[0];
 
+		// accumulate available quality information
+		let sources = el.find(`source`).map(sEl => {
+				let src = sEl.getAttribute("src"),
+					type = sEl.getAttribute("type"),
+					size = +sEl.getAttribute("size");
+				return { src, type, size };
+			})
+			// lowest quality first
+			.sort((a,b) => a.size - b.size);
+		// emit event with quality information
+		this.dispatch({ type: "add-quality-options", sources });
+
 		// emit event to add track to menu
 		this.dispatch({ type: "reset-language-options" });
 		// subtitles
@@ -161,15 +173,54 @@ class Plyr {
 		return Number(this.player.volume);
 	}
 
+	/**
+	 * Set playback quality
+	 * Currently HTML5 & YouTube only
+	 * @param {number} input - Quality level
+	 */
+	set quality(input) {
+		// Set quality
+		this.player.quality = input;
+	}
+
+	/**
+	 * Get current quality level
+	 */
+	get quality() {
+		return this.player.quality;
+	}
+
+	/**
+	 * Get current source
+	 */
+	set source(data) {
+        let { currentTime } = this.player;
+
+		this.quality = data.size;
+		this.player.src = data.src;
+		this.currentTime = currentTime;
+
+		this.player.load();
+		this.play();
+	}
+
+	/**
+	 * Get current source
+	 */
+	get source() {
+		return this.player.currentSrc.toString();
+	}
+
 	play() {
 		// reset wrapper element
 		this.wrapper.removeClass("initiated");
-		// Return the promise (for HTML5)
-		return this.player.play();
+		// start playing
+		this.player.play();
 	}
 
 	pause() {
-		return this.player.pause();
+		// pause playing
+		this.player.pause();
 	}
 
 	restart() {

@@ -81,6 +81,7 @@
 	<xsl:template name="media-file">
 		<video crossorigin="anonymous" playsinline="inline" preload="none">
 			<xsl:for-each select="./Meta[@id = 'source']">
+				<xsl:sort data-type="number" order="ascending" select="@size"/>
 				<source>
 					<xsl:attribute name="src"><xsl:value-of select="@value"/></xsl:attribute>
 					<xsl:attribute name="type"><xsl:value-of select="@type"/></xsl:attribute>
